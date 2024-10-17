@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "stu.cpp"
+// #include "stu.cpp"
 #include <string>
 
 //int main() {
@@ -48,7 +48,7 @@
 //}
 
 using namespace std;
-using namespace cxw;
+// using namespace cxw;
 
 void test01() {
     string s = "aaa";
@@ -132,25 +132,83 @@ string addStrings(string num1, string num2) {
 }
 
 
-void test04() {
-    mystring s1;
-    mystring s2("abafgmjh");
-    for(int i = 0;i < s2.size();i++) {
-        s2[i] = '1';
-        cout << s2[i] << " ";
-    }
+//void test04() {
+//    mystring s1;
+//    mystring s2("abafgmjh");
+//    for(int i = 0;i < s2.size();i++) {
+//        s2[i] = '1';
+//        cout << s2[i] << " ";
+//    }
+//}
 
+
+void test05() {
+    string s1;
+    string s2("aaa");
+    string s3(10,'c');
+    string s4(s2);
+    cout << s1 << endl;
+    cout << s2 << endl;
+    cout << s3 << endl;
+    cout << s4 << endl;
+
+}
+
+
+//void test06() {
+//    string s("cen's ");
+//    s.insert(6,"blo");
+//    s.insert(s.end(),'g');
+//    cout << s;  // cen's blog
+//}
+
+
+
+//int main() {
+//    string s("cen");
+//    s += "'s ";
+//    s += "blog";
+//    s.pop_back();
+//    cout << s;
+//    return 0;
+//}
+
+//int main() {
+//    string str = "oishbnsv;lkbds";
+//    str.erase(str.begin() + 3);
+//    str.erase(6,4);
+//    cout << str;    // oisbnsbds
+//    return 0;
+//}
+
+//int main() {
+//    string str1("abcd");
+//    string str2("abde");
+//    cout << str1.compare(str2); // -1
+//    return 0;
+//}
+
+void fun1() {
+    string s("abcdef");
+    // string::iterator it = s.begin();
+    auto it = s.begin();
+    while(it != s.end()) {
+        cout << *it << " ";
+        it++;
+    }
+}
+
+void fun2() {
+    string s("abcdef");
+    // string::reverse_iterator it = s.begin();
+    auto it = s.rbegin();
+    while(it != s.rend()) {
+        cout << *it << " ";
+        it++;
+    }
 }
 
 int main() {
-    // test01();
-    // test02();
-    // test03();
-    // cout << addStrings("11","123");
-     test04();
-//    char* c = "aaadddf";
-//    c[3] = '1';
-//    cout << c;
+    fun2();
     return 0;
 }
-
