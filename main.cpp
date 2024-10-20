@@ -2,6 +2,7 @@
 
 // #include "stu.cpp"
 #include <string>
+#include <vector>
 
 //int main() {
 //    // std::cout << "Hello, World!" << std::endl;
@@ -208,7 +209,90 @@ void fun2() {
     }
 }
 
+
+
+//int main() {
+//    string s1("asd");
+//    string s2("dddd");
+//    s1.swap(s2);
+//    cout << s2;
+//    return 0;
+//}
+
+
+void fun01() {
+    vector<int> v;
+    v.push_back(100);
+    v.push_back(44);
+    v.push_back(2);
+    v.push_back(678);
+    v.push_back(678);
+    v.push_back(678);
+//    for(vector<int>:: const_reverse_iterator it = v.rbegin();it != v.rend();it++) {
+//        cout << *it << " ";
+//    }
+//    for(auto i : v) {
+//        cout << i << endl;
+//    }
+    // v.push_back()
+
+    // iterator
+    // const_iterator
+    // reverse_iterator
+    // const_reverse_iterator
+    cout << v.size() << v.capacity();
+}
+
+
+void singleNumber(vector<int>& nums) {
+    int arr[32] = {0};
+    for(int i : nums) {
+        for(int n = 0;n < 32;n++) {
+            arr[n] += ((i >> n) & 1);
+        }
+    }
+    for(int i : arr) {
+        cout << i << " ";
+    }
+    // cout << ((6 >> 0)&1);
+}
+
+//int main() {
+//    // fun01();
+////    string name = "afshighd";
+////    int pos = name.find('g');
+////    name.erase(name.begin() + pos);
+////    cout << name;
+//
+//    vector<int>v = {1,1};
+////    v.push_back(2);
+////    v.push_back(2);
+////    v.push_back(2);
+////    v.push_back(3);
+//    //singleNumber(v);
+//    cout << v[0];
+//    cout << v[1];
+//    return 0;
+//}
+
+
 int main() {
-    fun2();
+    vector<int> v;
+    vector<int>::iterator it = v.begin();
+    v.push_back(100);
+    v.push_back(3);
+    v.push_back(5);
+    v.push_back(10);
+    v.push_back(1);
+
+    while(it != v.end()) {
+        if(*it%2 == 0)
+            v.erase(it);
+        it++;
+    }
+    for(auto i : v) {
+        cout << i << " ";
+    }
+
     return 0;
 }
