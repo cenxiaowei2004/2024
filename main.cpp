@@ -3,6 +3,11 @@
 // #include "stu.cpp"
 #include <string>
 #include <vector>
+#include <stack>
+#include <list>
+#include <queue>
+#include <deque>
+#include <forward_list>
 
 //int main() {
 //    // std::cout << "Hello, World!" << std::endl;
@@ -276,23 +281,134 @@ void singleNumber(vector<int>& nums) {
 //}
 
 
-int main() {
-    vector<int> v;
-    vector<int>::iterator it = v.begin();
-    v.push_back(100);
-    v.push_back(3);
-    v.push_back(5);
-    v.push_back(10);
-    v.push_back(1);
+//int main() {
+//    vector<int> v;
+//    vector<int>::iterator it = v.begin();
+//    v.push_back(100);
+//    v.push_back(3);
+//    v.push_back(5);
+//    v.push_back(10);
+//    v.push_back(1);
+//
+//    while(it != v.end()) {
+//        if(*it%2 == 0)
+//            v.erase(it);
+//        it++;
+//    }
+//    for(auto i : v) {
+//        cout << i << " ";
+//    }
+//
+//    return 0;
+//}
 
-    while(it != v.end()) {
-        if(*it%2 == 0)
-            v.erase(it);
-        it++;
-    }
-    for(auto i : v) {
-        cout << i << " ";
-    }
+
+// 既然有了vector，为什么还会有list
+// vector缺点：
+// 1、头部和中部的插入和删除数据效率较低（因为需要挪动数据）
+// 2、空间不够，需要开辟空间，其中会重新拷贝数据，消耗较大
+// vector优点：
+// 支持下标随机访问，进而很好地支持了二分查找、排序等
+//
+// list优点：
+// 1、与vector相反，插入和删除的效率较高，直接插入节点即可
+// list缺点：
+// 1、不支持下标随机访问
+
+//int main() {
+//    list<int> l;
+//    l.push_back(100);
+//    l.push_back(23);
+//    l.push_back(1);
+//    l.push_back(10);
+//    l.push_front(99);
+//
+//    l.sort();
+////    for(int i : l) {
+////        cout << i << " ";
+////    }
+////    cout << l.empty();
+//    forward_list<int>fl;
+////    fl.push_front(100);
+////    for(int i : l) {
+////        cout << i << " ";
+////    }
+////
+////    cout << l.front();
+//    list<int>::iterator it = l.begin();
+//    while(it != l.end()) {
+//        cout << *it << endl;
+//        it++;
+//    }
+//
+//
+//
+//    return 0;
+//}
+
+bool deleteOddNumber(int& i) {
+    return i % 2 != 0;
+}
+
+//int main() {
+//    list<int> l;
+//    list<int> li;
+//    li.push_back(200);
+//    li.push_back(2);
+//    l.push_back(100);
+//    l.push_back(23);
+//    l.push_back(1);
+//    l.push_back(10);
+//    l.push_front(99);
+//    l.reverse();
+
+//    l.remove(99);
+//    l.remove_if(deleteOddNumber);
+//    l.splice(l.begin(),li);
+//    for(int i : l) {
+//        cout << i << " ";
+//    }
+//    cout << endl;
+//    for(int i : li) {
+//        cout << i << " ";
+//    }
+//    return 0;
+//
+//}
+
+// tasks:
+// 1. 离散数学
+// 2. code
+
+
+int main() {
+//    stack<int>s;
+//    // 栈没有迭代器
+//    int a = INTMAX_MAX;
+//    cout << a;
+//    stack<int>s;
+//    s.push(100);
+//    s.push(200);
+//    s.push(1);
+//    s.push(10);
+//    while(!s.empty()) {
+//        cout << s.top() << " ";
+//        s.pop();
+//    }
+
+//    queue<int,vector<int>>q;
+//    q.push(100);
+//    q.push(2);
+//    q.push(4);
+//    q.push(10);
+//    q.push(300);
+//    while(!q.empty()) {
+//        cout << q.front() << " ";
+//        q.pop();
+//    }
+    deque<int>d;
 
     return 0;
 }
+
+
