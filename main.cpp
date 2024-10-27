@@ -513,19 +513,50 @@ private:
     string gender;
     int age;
 public:
-    person(string _name,string _gender,int _age) : name(_name),gender(_gender),age(_age) {};
+    // 构造函数
+    person(string _name = " ",string _gender = " ",int _age = 0 ) : name(_name),gender(_gender),age(_age) {}
+    // 拷贝构造函数
+    person(const person& p) {
+        name = p.name;
+        gender = p.gender;
+        age = p.age;
+    }
+    // 赋值运算符重载函数
+    person& operator=(const person& p) {
+        if(this != &p) {
+            name = p.name;
+            gender = p.gender;
+            age = p.age;
+        }
+        return *this;
+    }
+    // 析构函数
+    ~person() {}
 };
 
 class student : public person{
 private:
-    int stuid;
+    int stuid;  // 学号
 public:
-    // ...
+    // 构造函数
+    student(const string& name,string gender,int age,int _stuid) : person(name,gender,age),stuid(_stuid) {}
+    // 拷贝构造函数
+    student(const student& s) : person(s), stuid(s.stuid) {}
+    // 赋值运算符重载函数
+    student& operator=(const student& s) {
+        if(this != &s) {
+            person::operator=(s);
+            stuid = s.stuid;
+        }
+        return *this;
+    }
+    // 析构函数
+    ~student() {}
 };
 
 class teacher : public person{
 private:
-    int jobid;
+    int jobid;  // 工号
 public:
     // ...
 };
@@ -536,6 +567,7 @@ public:
 // 3.英语六级
 
 int main() {
+    student s("zhangsan","male",22,20230111);
 
     return 0;
 }
