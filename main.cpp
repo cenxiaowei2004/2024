@@ -507,67 +507,108 @@ public:
 
 // 学习继承
 // 人类、学生类、老师类
-class person {
-private:
-    string name;
-    string gender;
-    int age;
-public:
-    // 构造函数
-    person(string _name = " ",string _gender = " ",int _age = 0 ) : name(_name),gender(_gender),age(_age) {}
-    // 拷贝构造函数
-    person(const person& p) {
-        name = p.name;
-        gender = p.gender;
-        age = p.age;
-    }
-    // 赋值运算符重载函数
-    person& operator=(const person& p) {
-        if(this != &p) {
-            name = p.name;
-            gender = p.gender;
-            age = p.age;
-        }
-        return *this;
-    }
-    // 析构函数
-    ~person() {}
-};
 
-class student : public person{
-private:
-    int stuid;  // 学号
-public:
-    // 构造函数
-    student(const string& name,string gender,int age,int _stuid) : person(name,gender,age),stuid(_stuid) {}
-    // 拷贝构造函数
-    student(const student& s) : person(s), stuid(s.stuid) {}
-    // 赋值运算符重载函数
-    student& operator=(const student& s) {
-        if(this != &s) {
-            person::operator=(s);
-            stuid = s.stuid;
-        }
-        return *this;
-    }
-    // 析构函数
-    ~student() {}
-};
-
-class teacher : public person{
-private:
-    int jobid;  // 工号
-public:
-    // ...
-};
+//class person {
+//private:
+//    string name;
+//    string gender;
+//    int age;
+//public:
+//    // 构造函数
+//    person(string _name = " ",string _gender = " ",int _age = 0 ) : name(_name),gender(_gender),age(_age) {}
+//    // 拷贝构造函数
+//    person(const person& p) {
+//        name = p.name;
+//        gender = p.gender;
+//        age = p.age;
+//    }
+//    // 赋值运算符重载函数
+//    person& operator=(const person& p) {
+//        if(this != &p) {
+//            name = p.name;
+//            gender = p.gender;
+//            age = p.age;
+//        }
+//        return *this;
+//    }
+//    // 析构函数
+//    ~person() {}
+//};
+//
+//class student : public person{
+//private:
+//    int stuid;  // 学号
+//public:
+//    // 构造函数
+//    student(const string& name,string gender,int age,int _stuid) : person(name,gender,age),stuid(_stuid) {}
+//    // 拷贝构造函数
+//    student(const student& s) : person(s), stuid(s.stuid) {}
+//    // 赋值运算符重载函数
+//    student& operator=(const student& s) {
+//        if(this != &s) {
+//            person::operator=(s);
+//            stuid = s.stuid;
+//        }
+//        return *this;
+//    }
+//    // 析构函数
+//    ~student() {}
+//};
+//
+//class teacher : public person{
+//private:
+//    int jobid;  // 工号
+//public:
+//    // ...
+//};
 
 // 10/27 tasks
 // 1.继承的完结
 // 2.线代、离散、概率...
 // 3.英语六级
 
+// 多态的学习与认识
+
+// 买票的场景，普通人买票是全价，学生买票是半价，而军人允许优先买票。
+// 不同身份的人去买票，所产生的行为是不同的，这就是所谓的多态。
+
+class person {
+public:
+    virtual void buyTicket(int a = 1) = 0;
+};
+
+class student : public person {
+    virtual void buyTicket(int a = 0) override {
+        cout << "学生半价车票"  << a << endl;
+    }
+};
+
+class soldier : public person {
+//    virtual void buyTicket() override {
+//        cout << "军人优先购票" << endl;
+//    }
+};
+void func(person& p) {
+    p.buyTicket();
+}
+
+//int main() {
+//    person p;
+//    student stu;
+//    soldier sol;
+//    func(stu);
+//    func(sol);
+//    func(p);
+//    // 学生半价车票
+//    // 军人优先购票
+//    // 普通人全价购票
+//    return 0;
+//}
+
+
+
+
 int main() {
-    student s("zhangsan","male",22,20230111);
 
     return 0;
 }
