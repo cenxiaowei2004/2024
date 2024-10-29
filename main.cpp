@@ -607,8 +607,17 @@ void func(person& p) {
 
 
 
+class Base {
+public:
+    virtual void Func1() {
+        cout << "Func1()" << endl;
+    }
+private:
+    int _b = 1;
+};
 
 int main() {
-
+    Base b;
+    cout << sizeof(b) << endl;
     return 0;
 }
