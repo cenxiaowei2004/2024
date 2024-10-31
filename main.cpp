@@ -605,6 +605,9 @@ void func(person& p) {
 //    return 0;
 //}
 
+// 8：25 ~ 10：25
+
+
 
 
 class Base {
@@ -616,8 +619,143 @@ private:
     int _b = 1;
 };
 
+//int main() {
+//    Base b;
+//    cout << sizeof(b) << endl;
+//    return 0;
+//}
+
+
+// 数据结构的开始（C++）
+// 2024/10/30
+
+//一、学习时间复杂度和了解空间复杂度
+
+// 顺序表的模拟实现（静态），固定大小，容易实现
+// ...
+
+// 顺序表的模拟实现（动态），大小可变
+
+#include <memory>
+
+template<class T>
+class SeqList {
+public:
+    // 构造函数
+    SeqList() : size(0), capacity(5) {
+        dataList = new T[5];   // 堆区开辟5个空间,顺序表容量开辟为5
+    }
+    // 其他成员函数：尾插尾删，头插头删，插入元素，删除元素
+    // 尾插
+    void push_back(T t);
+    // 尾删
+    void pop_back();
+    // 前插
+    void push_front(T t);
+    // 前删
+    void pop_front();
+    // 展示数据
+    void printSL();
+    // 数据插入
+    void insert(T t,int pos);
+    // 数据删除
+    void erase(int pos);
+    // 检查空间是否需要扩容
+    void checkSpace() {
+        if(size > capacity) {
+            // 开辟规则：按照原来的1.5 ~ 2倍进行开辟(此过程并非唯一)
+            // 并且进行数据迁移,使用realloc / 智能指针 + new
+            capacity *= 2;
+            dataList = (T*)realloc(dataList, sizeof(T) * capacity);
+        }
+    }
+private:
+    T* dataList;
+    // 顺序表中有效数据的个数
+    int size;
+    // 顺序表中总的开辟个数
+    int capacity;
+};
+
+template<class T>
+void SeqList<T>::push_back(T t) {
+    // 容量不够的情况下：
+    checkSpace();
+    // 容量够的情况下：
+    dataList[size] = t;
+    size++;
+}
+
+template<class T>
+void SeqList<T>::pop_back() {
+    size--;
+}
+
+template<class T>
+void SeqList<T>::printSL() {
+    for(int i = 0;i < size;i++) {
+        cout << dataList[i] << " ";
+    }
+}
+
+template<class T>
+void SeqList<T>::push_front(T t) {
+    // 容量不够的情况下：
+    checkSpace();
+    // 容量够的情况下：
+    int end = size - 1;
+    while(end >= 0) {
+        dataList[end + 1] = dataList[end];
+        end--;
+    }
+    dataList[0] = t;
+    size++;
+}
+
+template<class T>
+void SeqList<T>::pop_front() {
+    int start = 0;
+    while(start < size) {
+        dataList[start] = dataList[start + 1];
+        start++;
+    }
+    size--;
+}
+
+template<class T>
+void SeqList<T>::insert(T t,int pos) {
+    // 插入，在pos之前的数据，之后的数据
+    int start = 0;
+    int end = size - 1;
+
+
+}
+
+template<class T>
+void SeqList<T>::erase(int pos) {
+
+}
+
+void testSeqList() {
+    SeqList<int> sl;
+    sl.push_back(100);
+    sl.push_back(200);
+    sl.push_back(300);
+    sl.push_back(400);
+    sl.push_back(400);
+    sl.push_back(400);
+    sl.push_back(0);
+    sl.push_back(111);
+    sl.pop_back();
+    sl.push_front(1);
+    sl.push_front(2);
+    sl.pop_front();
+    // 1 100 200 300 400 400 400 0
+    sl.printSL();
+
+}
+
 int main() {
-    Base b;
-    cout << sizeof(b) << endl;
+    testSeqList();
     return 0;
 }
