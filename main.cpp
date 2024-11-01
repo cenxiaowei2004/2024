@@ -669,6 +669,12 @@ public:
             dataList = (T*)realloc(dataList, sizeof(T) * capacity);
         }
     }
+    ~SeqList() {
+        size = 0;
+        capacity = 0;
+        // 销毁dataList
+        delete[] dataList;
+    }
 private:
     T* dataList;
     // 顺序表中有效数据的个数
@@ -724,16 +730,32 @@ void SeqList<T>::pop_front() {
 
 template<class T>
 void SeqList<T>::insert(T t,int pos) {
-    // 插入，在pos之前的数据，之后的数据
-    int start = 0;
+    // 插入，在pos - (size - 1)的数据往后挪
+    // 下标错误排查
+    if(pos < 0 || pos > size)
+        return;
     int end = size - 1;
-
-
+    checkSpace();
+    while(end >= pos) {
+        dataList[end + 1] = dataList[end];
+        end--;
+    }
+    dataList[pos] = t;
+    size++;
 }
 
 template<class T>
 void SeqList<T>::erase(int pos) {
-
+    // 下标错误排查
+    if(pos < 0 || pos > size)
+        return;
+    // 删除数据，[ pos - (size - 1) ]的数据往前挪,将数据覆盖
+    int start = pos + 1;
+    while(start < size) {
+        dataList[start - 1] = dataList[start];
+        start++;
+    }
+    size--;
 }
 
 void testSeqList() {
@@ -751,11 +773,108 @@ void testSeqList() {
     sl.push_front(2);
     sl.pop_front();
     // 1 100 200 300 400 400 400 0
+    sl.insert(999,3);
+    // 1 100 200 999 300 400 400 400 0
+    sl.erase(3);
+    // 1 100 200 300 400 400 400 0
     sl.printSL();
-
 }
+
+
+// 链表的实现
+
+// 单链表的实现 2024/11/01
+
+void test10() {
+    // ...
+}
+
+// 今日话题：为什么二者不可兼得？
+// 考研 or 工作 or 保研（没实力，已经pass了）
+// 考研：英语、数学、政治、专业、关注目标院校
+// 工作：C++、数据结构、操作系统、Linux网络编程、做项目、找实习、关注行业动态
+// 外部压力：父母催赶、大环境、赚钱money、创业😀（头发保命）
+// 内心方向：以高中的努力，应该不会太差，211硕士没问题
+//
+
+template<class T>
+class SLList {
+public:
+    // 构造函数
+    SLList() : head(nullptr) {}
+    // 打印链表元素
+    void printSLList();
+    // 尾插
+    void push_back(T t);
+private:
+    class ListNode {
+    public:
+        ListNode* next; // 指针域
+        T data;         // 数据域
+        ListNode(T x) : next(nullptr), data(x) {}
+    };
+    ListNode* head;
+};
+
+template<class T>
+void SLList<T>::printSLList() {
+    ListNode* node = head;
+    while(node != nullptr) {
+        cout << node->data << endl;
+        node = node->next;
+    }
+}
+
+template<class T>
+void SLList<T>::push_back(T t) {
+    ListNode* node = head;
+    ListNode* newnode = new ListNode(t);
+    while(node != nullptr) {
+        node = node->next;
+    }
+    newnode->next = nullptr;
+    node->next = newnode;
+}
+
+
+void testSLList() {
+    SLList<int> slList;
+    slList.push_back(100);
+    slList.push_back(100);
+    slList.push_back(100);
+    slList.push_back(100);
+    slList.printSLList();
+}
+
 
 int main() {
-    testSeqList();
+    // testSeqList();
+
+    testSLList();
     return 0;
 }
+
+/*
+                   _ooOoo_
+                  o8888888o
+                  88" . "88
+                  (| -_- |)
+                  O\  =  /O
+               ____/`---'\____
+             .'  \\|     |//  `.
+            /  \\|||  :  |||//  \
+           /  _||||| -:- |||||-  \
+           |   | \\\  -  /// |   |
+           | \_|  ''\---/''  |   |
+           \  .-\__  `-`  ___/-. /
+         ___`. .'  /--.--\  `. . __
+      ."" '<  `.___\_<|>_/___.'  >'"".
+     | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+     \  \ `-.   \_ __\ /__ _/   .-` /  /
+======`-.____`-.___\_____/___.-`____.-'======
+                   `=---='
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            佛祖保佑       永无BUG
+*/
+
+
