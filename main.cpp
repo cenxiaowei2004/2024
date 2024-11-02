@@ -794,7 +794,7 @@ void test10() {
 // 考研：英语、数学、政治、专业、关注目标院校
 // 工作：C++、数据结构、操作系统、Linux网络编程、做项目、找实习、关注行业动态
 // 外部压力：父母催赶、大环境、赚钱money、创业😀（头发保命）
-// 内心方向：以高中的努力，应该不会太差，211硕士没问题
+// 内心方向：以高中的努力，应该不会太差，211硕士没问题[狗头]
 //
 
 template<class T>
@@ -804,15 +804,26 @@ public:
     SLList() : head(nullptr) {}
     // 打印链表元素
     void printSLList();
+    // 增删成员函数
     // 尾插
     void push_back(T t);
-private:
+    // 前插
+    void push_front(T t);
+    // 尾删
+    void pop_back();
+    // 前删
+    void pop_front();
+    // 在第一个指定位置后插入一个数据（后插）
+    void insert(T pos, T t);
+    // 在第一个指定位置删除一个数据
+    void erase(T pos);
     class ListNode {
     public:
         ListNode* next; // 指针域
         T data;         // 数据域
         ListNode(T x) : next(nullptr), data(x) {}
     };
+private:
     ListNode* head;
 };
 
@@ -820,30 +831,116 @@ template<class T>
 void SLList<T>::printSLList() {
     ListNode* node = head;
     while(node != nullptr) {
-        cout << node->data << endl;
+        cout << node->data << " -> ";
         node = node->next;
     }
+    cout << "nullptr";
 }
 
 template<class T>
 void SLList<T>::push_back(T t) {
     ListNode* node = head;
     ListNode* newnode = new ListNode(t);
-    while(node != nullptr) {
+    // 检查头节点是否为空
+    // 头节点为空
+    if(node == nullptr)
+        head = newnode;
+    // 头节点非空
+    else {
+        while(node->next != nullptr) {
+            node = node->next;
+        }
+        node->next = newnode;
+    }
+}
+
+template<class T>
+void SLList<T>::push_front(T t) {
+    // 与尾插类似
+    ListNode* node = head;
+    ListNode* newnode = new ListNode(t);
+    if(head != nullptr) {
+        newnode->next = node;
+    }
+    head = newnode;
+}
+
+template<class T>
+void SLList<T>::pop_back() {
+    ListNode* node = head;
+    if(node == nullptr || node->next == nullptr) {
+        head = nullptr;
+        return;
+    }
+    while(node->next->next != nullptr) {
         node = node->next;
     }
-    newnode->next = nullptr;
+    delete node->next;
+    node->next = nullptr;
+}
+
+template<class T>
+void SLList<T>::pop_front() {
+    ListNode* node = head;
+    if(node == nullptr || node->next == nullptr) {
+        head = nullptr;
+        return;
+    }
+    head = head->next;
+    delete node;
+}
+
+template<class T>
+void SLList<T>::insert(T pos,T t) {
+    ListNode* node = head;
+    ListNode* newnode = new ListNode(t);
+    if(head == nullptr)
+        return;
+    if(head->data == pos) {
+        newnode->next = head->next;
+        head->next = newnode;
+        return;
+    }
+    while(node->next != nullptr) {
+        node = node->next;
+        if(node->data == pos)
+            break;
+    }
+    newnode->next = node->next;
     node->next = newnode;
+}
+
+template<class T>
+void SLList<T>::erase(T pos) {
+    // 指定位置数据
+    ListNode* node = head;
+    if(head == nullptr || head->data == pos)
+        return;
+    while(node->next->next != nullptr) {
+        node = node->next;
+        if(node->next->data == pos)
+            break;
+    }
+    ListNode* tempnode = node->next;
+    node->next = tempnode->next;
+    delete tempnode;
 }
 
 
 void testSLList() {
     SLList<int> slList;
-    slList.push_back(100);
-    slList.push_back(100);
-    slList.push_back(100);
-    slList.push_back(100);
+    // slList.push_back(100);
+    // slList.push_back(200);
+    slList.push_back(999);
+    slList.push_back(888);
+    slList.push_back(777);
+    // slList.pop_back();
+    // slList.pop_front();
+    slList.insert(999,666);
+    // 999 -> 666 -> 888 -> 777 -> nullptr
+    slList.erase(888);
     slList.printSLList();
+
 }
 
 
@@ -875,6 +972,6 @@ int main() {
                    `=---='
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             佛祖保佑       永无BUG
+                                         #cen
 */
-
 
