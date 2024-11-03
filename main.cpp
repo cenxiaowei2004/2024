@@ -785,9 +785,6 @@ void testSeqList() {
 
 // 单链表的实现 2024/11/01
 
-void test10() {
-    // ...
-}
 
 // 今日话题：为什么二者不可兼得？
 // 考研 or 工作 or 保研（没实力，已经pass了）
@@ -817,6 +814,15 @@ public:
     void insert(T pos, T t);
     // 在第一个指定位置删除一个数据
     void erase(T pos);
+    // 析构函数
+    ~SLList() {
+        ListNode* node = head;
+        while(node != nullptr) {
+            ListNode* temp = node->next;
+            delete node;
+            node = temp;
+        }
+    }
     class ListNode {
     public:
         ListNode* next; // 指针域
@@ -926,7 +932,6 @@ void SLList<T>::erase(T pos) {
     delete tempnode;
 }
 
-
 void testSLList() {
     SLList<int> slList;
     // slList.push_back(100);
@@ -943,13 +948,57 @@ void testSLList() {
 
 }
 
-
-int main() {
-    // testSeqList();
-
-    testSLList();
-    return 0;
+void getBinary(int n) {
+    for(int i = 0;i < 32;i++) {
+        cout << ((n>>i)&1) << " ";
+    }
 }
+
+// 力扣 206 27 26 989
+
+namespace N {
+    struct ListNode {
+        int val;
+        ListNode *next;
+
+        ListNode() : val(0), next(nullptr) {}
+
+        ListNode(int x) : val(x), next(nullptr) {}
+
+        ListNode(int x, ListNode *next) : val(x), next(next) {}
+    };
+
+    class Solution_206 {
+    public:
+        ListNode *reverse(ListNode *cur, ListNode *prev) {
+            if (cur == nullptr)
+                return prev;
+            ListNode *temp = cur->next;
+            cur->next = prev;
+            // prev = cur;
+            // cur = temp;
+            // return reverse(cur, prev);
+            return reverse(temp, cur);
+        }
+
+        ListNode *reverseList(ListNode *head) {
+            // 递归怎么写？
+            // 仿照一下，二叉树的遍历，这是一个经典递归问题
+            // 迭代总是可以转换为递归
+            // 先把过程想清楚，然后想一想如何让复用，即那个过程是重复的
+            return reverse(head, nullptr);
+        }
+    };
+
+}
+
+//int main() {
+//    // testSeqList();
+//    // testSLList();
+//    getBinary(4);
+//
+//    return 0;
+//}
 
 /*
                    _ooOoo_
@@ -974,4 +1023,172 @@ int main() {
             佛祖保佑       永无BUG
                                          #cen
 */
+
+// 上面实现的是无头单向链表
+
+// 快捷键： Ctrl + Alt + L = 格式化代码
+
+// 下面实现带头双向循环链表
+template<class T>
+class DLList {
+public:
+    class Listnode {
+    public:
+        Listnode* prev;
+        Listnode* next;
+        T data;
+        // Listnode() : prev(nullptr), next(nullptr) {}
+        Listnode(T t) : prev(nullptr), next(nullptr), data(t) {}
+    };
+    DLList() {
+        phead = new Listnode(0);
+    }
+    // 尾插
+    void push_back(T t);
+    // 头插
+    void push_front(T t);
+    // 尾删
+    void pop_back();
+    // 头删
+    void pop_front();
+    // 指定位置插入：指定位置之前插入一个结点
+    void insert(T pos, T t);
+    // 指定位置删除：
+    void erase(T pos);
+    // 打印链表
+    void printList();
+private:
+    Listnode* phead;
+};
+
+template<class T>
+void DLList<T>::push_back(T t) {
+    Listnode* newnode = new Listnode(t);
+    Listnode* node = phead;
+    if (phead->next == nullptr) {
+        newnode->prev = phead;
+        phead->next = newnode;
+        return;
+    }
+    while (node->next != nullptr) {
+        node = node->next;
+    }
+    node->next = newnode;
+    newnode->prev = node;
+}
+
+template<class T>
+void DLList<T>::push_front(T t) {
+    Listnode* newnode = new Listnode(t);
+    if(phead->next == nullptr) {
+        phead->next = newnode;
+        newnode->prev = phead;
+        return;
+    }
+    newnode->next = phead->next;
+    newnode->prev = phead;
+    phead->next = newnode;
+}
+
+// Siuuuuuu~
+
+template<class T>
+void DLList<T>::printList() {
+    Listnode* node = phead->next;
+    while(node != nullptr) {
+        cout << node->data << " -> ";
+        node = node->next;
+    }
+    cout << "nullptr";
+}
+
+template<class T>
+void DLList<T>::pop_back() {
+    Listnode* node = phead;
+    if(phead->next == nullptr) {
+        return;
+    }
+    while(node->next->next != nullptr) {
+        node = node->next;
+    }
+    Listnode* temp = node->next;
+    delete temp;
+    node->next = nullptr;
+}
+
+template<class T>
+void DLList<T>::pop_front() {
+    if(phead->next == nullptr)
+        return;
+    Listnode* temp = phead->next->next;
+    delete phead->next;
+    phead->next = temp;
+    temp->prev = phead;
+}
+
+template<class T>
+void DLList<T>::insert(T pos, T t) {
+    Listnode* node = phead;
+    Listnode* newnode = new Listnode(t);
+    while (node->next != nullptr) {
+        if(node->next->data == pos) {
+            break;
+        }
+        node = node->next;
+    }
+    Listnode* temp = node->next;
+    node->next = newnode;
+    newnode->prev = node;
+    newnode->next = temp;
+    temp->prev = newnode;
+}
+
+template<class T>
+void DLList<T>::erase(T pos) {
+    // 删除pos
+    Listnode* node = phead;
+    if(node->next == nullptr)
+        return;
+    while(node->next != nullptr) {
+        if(node->next->data == pos) {
+            // 删除
+            Listnode* temp = node->next;
+            node->next = temp->next;
+            temp->prev = node;
+            delete temp;
+            return;
+        }
+        node = node->next;
+    }
+}
+
+void testSDList() {
+    DLList<int>dlList;
+    dlList.push_back(100);
+    dlList.push_back(233);
+    dlList.push_back(3);
+    dlList.push_back(13);
+    dlList.push_back(33);
+    dlList.push_front(10);
+    dlList.pop_back();
+    // 10 -> 100 -> nullptr
+    dlList.pop_front();
+    // 100 -> 233 -> 3 -> 13 -> nullptr
+    dlList.insert(3,50);
+    dlList.erase(13);
+    // 100 -> 233 -> 50 -> 3 -> nullptr
+    dlList.printList();
+}
+
+// 好孤单，一个人😭~
+
+
+
+// 栈的模拟实现
+
+int main() {
+    testSDList();
+
+    return 0;
+}
 
