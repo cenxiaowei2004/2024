@@ -9,6 +9,8 @@
 #include <deque>
 #include <forward_list>
 // #include <priority_queue>
+#include<algorithm>
+
 
 //int main() {
 //    // std::cout << "Hello, World!" << std::endl;
@@ -1057,6 +1059,15 @@ public:
     void erase(T pos);
     // 打印链表
     void printList();
+    // 构造函数
+    ~DLList() {
+        Listnode* node = phead;
+        while(node != nullptr) {
+            Listnode* temp = node;
+            node = node->next;
+            delete temp;
+        }
+    }
 private:
     Listnode* phead;
 };
@@ -1184,10 +1195,98 @@ void testSDList() {
 
 
 
+int getMin(vector<int>& nums) {
+    int minret = INT32_MAX; // 或者max
+    // 数组排序
+    sort(nums.begin(),nums.end());
+    // 双指针
+    int left = 0,right = nums.size() - 1;
+    int sum1 = nums[left], sum2 = nums[right];
+    left++;right--;
+    // sum1 记录左队之和,sum2 记录右队之和
+    while(left <= right) {
+        if(sum1 < sum2) {
+            sum1 += nums[left++];
+        }
+        else if(sum1 > sum2) {
+            sum2 += nums[right--];
+        }
+        minret = min(minret,abs(sum1 - sum2));
+    }
+    // cout << sum1 << " " << sum2 << endl;
+    return minret;
+}
+
 // 栈的模拟实现
 
+template<class T>
+class Stack {
+private:
+    int size;
+    int capacity;
+    T* arr;
+    void checkSpace();
+public:
+    Stack() : size(0), capacity(0) {
+        arr = new T[5];
+    }
+    ~Stack() {
+        size = 0;
+        capacity = 0;
+        arr = nullptr;
+    }
+    void push(T t);
+    void pop();
+    int getSize() {
+        return size;
+    }
+    T top() {
+        return arr[size - 1];
+    }
+    bool empty() {
+        return size == 0;
+    }
+};
+
+template<class T>
+void Stack<T>::checkSpace() {
+    if(size > capacity) {
+        // 扩容
+        capacity *= 2;
+        arr = (T*) realloc(arr, sizeof(T)*capacity);
+    }
+}
+
+template<class T>
+void Stack<T>::push(T t) {
+    checkSpace();
+    arr[size] = t;
+    size++;
+}
+
+template<class T>
+void Stack<T>::pop() {
+    if(size > 0)
+    size--;
+}
+
+void testStack() {
+    Stack<int>stack;
+    stack.push(100);
+    stack.push(23);
+
+    cout << stack.top();
+    cout << endl;
+    cout << stack.getSize();
+
+}
+
+
+
 int main() {
-    testSDList();
+    // testSDList();
+    // testStack();
+    // vector<int> v;
 
     return 0;
 }
