@@ -61,8 +61,8 @@ using namespace std;
 
 void test01() {
     string s = "aaa";
-    s.insert(2,"111");
-    s.insert(2,5,'2');
+    s.insert(2, "111");
+    s.insert(2, 5, '2');
     cout << s << endl;
     cout << s.size() << endl;
     cout << s[0] << endl;
@@ -76,18 +76,18 @@ void test02() {
 //    s +="222";
 //    cout << s;
     string s = "vvvvvvaa";
-    const char* str = s.c_str();
+    const char *str = s.c_str();
     // cout << str;
 //    int ret = s.find('a');
 //    cout << ret;
     string url("https://legacy.cplusplus.com/reference/string/string/find/");
     int pos = url.find(':');
-    if(pos != string::npos) {
+    if (pos != string::npos) {
         string http(url.substr(0, pos));
         cout << http << endl;
     }
-    int pos1 = url.find('/',pos + 3);
-    if(pos1 != string::npos) {
+    int pos1 = url.find('/', pos + 3);
+    if (pos1 != string::npos) {
         string web(url.substr(pos + 3, pos1 - pos - 3));
         cout << web;
     }
@@ -95,7 +95,7 @@ void test02() {
 
 void test03() {
     string str;
-    getline(cin,str);
+    getline(cin, str);
     //string str = "aaaaa ss d";
     // ret = 4
     int pos = str.rfind(' ');
@@ -107,11 +107,12 @@ class Solution01 {
 public:
     int switchInt(string s) {
         int ret = 0;
-        for (auto c : s) {
+        for (auto c: s) {
             ret = ret * 10 + (c - '0');
         }
         return ret;
     }
+
     string addStrings(string num1, string num2) {
         int n1 = switchInt(num1);
         int n2 = switchInt(num2);
@@ -123,12 +124,12 @@ string addStrings(string num1, string num2) {
     int next = 0; // 进位
     string s;
     int sum = 0;
-    int end1 = num1.size(),end2 = num2.size();
-    while(end1 >= 0 || end2 >= 0) {
-        int n1 = 0,n2 = 0;
-        if(end1 >= 0)
+    int end1 = num1.size(), end2 = num2.size();
+    while (end1 >= 0 || end2 >= 0) {
+        int n1 = 0, n2 = 0;
+        if (end1 >= 0)
             n1 = num1[end1] - '0';
-        if(end2 >= 0)
+        if (end2 >= 0)
             n2 = num2[end2] - '0';
         sum = n1 + n2 + next;
         next = sum / 10;
@@ -154,7 +155,7 @@ string addStrings(string num1, string num2) {
 void test05() {
     string s1;
     string s2("aaa");
-    string s3(10,'c');
+    string s3(10, 'c');
     string s4(s2);
     cout << s1 << endl;
     cout << s2 << endl;
@@ -201,7 +202,7 @@ void fun1() {
     string s("abcdef");
     // string::iterator it = s.begin();
     auto it = s.begin();
-    while(it != s.end()) {
+    while (it != s.end()) {
         cout << *it << " ";
         it++;
     }
@@ -211,7 +212,7 @@ void fun2() {
     string s("abcdef");
     // string::reverse_iterator it = s.begin();
     auto it = s.rbegin();
-    while(it != s.rend()) {
+    while (it != s.rend()) {
         cout << *it << " ";
         it++;
     }
@@ -250,14 +251,14 @@ void fun01() {
 }
 
 
-void singleNumber(vector<int>& nums) {
+void singleNumber(vector<int> &nums) {
     int arr[32] = {0};
-    for(int i : nums) {
-        for(int n = 0;n < 32;n++) {
+    for (int i: nums) {
+        for (int n = 0; n < 32; n++) {
             arr[n] += ((i >> n) & 1);
         }
     }
-    for(int i : arr) {
+    for (int i: arr) {
         cout << i << " ";
     }
     // cout << ((6 >> 0)&1);
@@ -347,7 +348,7 @@ void singleNumber(vector<int>& nums) {
 //    return 0;
 //}
 
-bool deleteOddNumber(int& i) {
+bool deleteOddNumber(int &i) {
     return i % 2 != 0;
 }
 
@@ -429,32 +430,35 @@ bool deleteOddNumber(int& i) {
 // 后续内容： 模板进阶 + 继承多态 + 二叉树 + set + map + C++ 11 + 复习
 
 template<typename T, int N>
-T add(T x,T y) {
+T add(T x, T y) {
     int arr[N];
     return x + y;
 }
+
 #include<string.h>
 
 template<typename T>
-bool isEqual(T t1,T t2) {
+bool isEqual(T t1, T t2) {
     return t1 == t2;
 }
+
 template<>
-bool isEqual(char* ch1,char* ch2) {
-    return strcmp(ch1,ch2) == 0;
+bool isEqual(char *ch1, char *ch2) {
+    return strcmp(ch1, ch2) == 0;
 }
 
 // 类原模版
-template<class T1,class T2>
+template<class T1, class T2>
 class A {
 private:
     T1 t1;
     T2 t2;
 public:
-    A(T1 _t1,T2 _t2) : t1(_t1),t2(_t2) {
+    A(T1 _t1, T2 _t2) : t1(_t1), t2(_t2) {
         cout << "A <T1, T2>" << endl;
     };
 };
+
 // 类模板的特化
 template<>
 class A<int, double> {
@@ -462,7 +466,7 @@ private:
     int t1;
     double t2;
 public:
-    A(int _t1,double _t2) : t1(_t1),t2(_t2) {
+    A(int _t1, double _t2) : t1(_t1), t2(_t2) {
         cout << "A <int, double>" << endl;
     };
 };
@@ -475,19 +479,19 @@ private:
     int t1;
     T2 t2;
 public:
-    A(int _t1,T2 _t2) : t1(_t1),t2(_t2) {
+    A(int _t1, T2 _t2) : t1(_t1), t2(_t2) {
         cout << "A <int, T2>" << endl;
     };
 };
 
 // 对参数进行限制
-template<class T1,class T2>
-class A<T1&, T2&> {
+template<class T1, class T2>
+class A<T1 &, T2 &> {
 private:
     T1 t1;
     T2 t2;
 public:
-    A(T1 _t1,T2 _t2) : t1(_t1),t2(_t2) {
+    A(T1 _t1, T2 _t2) : t1(_t1), t2(_t2) {
         cout << "A <T1&, T2&>" << endl;
     };
 };
@@ -581,7 +585,7 @@ public:
 
 class student : public person {
     virtual void buyTicket(int a = 0) override {
-        cout << "学生半价车票"  << a << endl;
+        cout << "学生半价车票" << a << endl;
     }
 };
 
@@ -590,7 +594,8 @@ class soldier : public person {
 //        cout << "军人优先购票" << endl;
 //    }
 };
-void func(person& p) {
+
+void func(person &p) {
     p.buyTicket();
 }
 
@@ -617,6 +622,7 @@ public:
     virtual void Func1() {
         cout << "Func1()" << endl;
     }
+
 private:
     int _b = 1;
 };
@@ -647,38 +653,48 @@ public:
     SeqList() : size(0), capacity(5) {
         dataList = new T[5];   // 堆区开辟5个空间,顺序表容量开辟为5
     }
+
     // 其他成员函数：尾插尾删，头插头删，插入元素，删除元素
     // 尾插
     void push_back(T t);
+
     // 尾删
     void pop_back();
+
     // 前插
     void push_front(T t);
+
     // 前删
     void pop_front();
+
     // 展示数据
     void printSL();
+
     // 数据插入
-    void insert(T t,int pos);
+    void insert(T t, int pos);
+
     // 数据删除
     void erase(int pos);
+
     // 检查空间是否需要扩容
     void checkSpace() {
-        if(size > capacity) {
+        if (size > capacity) {
             // 开辟规则：按照原来的1.5 ~ 2倍进行开辟(此过程并非唯一)
             // 并且进行数据迁移,使用realloc / 智能指针 + new
             capacity *= 2;
-            dataList = (T*)realloc(dataList, sizeof(T) * capacity);
+            dataList = (T *) realloc(dataList, sizeof(T) * capacity);
         }
     }
+
     ~SeqList() {
         size = 0;
         capacity = 0;
         // 销毁dataList
         delete[] dataList;
     }
+
 private:
-    T* dataList;
+    T *dataList;
     // 顺序表中有效数据的个数
     int size;
     // 顺序表中总的开辟个数
@@ -701,7 +717,7 @@ void SeqList<T>::pop_back() {
 
 template<class T>
 void SeqList<T>::printSL() {
-    for(int i = 0;i < size;i++) {
+    for (int i = 0; i < size; i++) {
         cout << dataList[i] << " ";
     }
 }
@@ -712,7 +728,7 @@ void SeqList<T>::push_front(T t) {
     checkSpace();
     // 容量够的情况下：
     int end = size - 1;
-    while(end >= 0) {
+    while (end >= 0) {
         dataList[end + 1] = dataList[end];
         end--;
     }
@@ -723,7 +739,7 @@ void SeqList<T>::push_front(T t) {
 template<class T>
 void SeqList<T>::pop_front() {
     int start = 0;
-    while(start < size) {
+    while (start < size) {
         dataList[start] = dataList[start + 1];
         start++;
     }
@@ -731,14 +747,14 @@ void SeqList<T>::pop_front() {
 }
 
 template<class T>
-void SeqList<T>::insert(T t,int pos) {
+void SeqList<T>::insert(T t, int pos) {
     // 插入，在pos - (size - 1)的数据往后挪
     // 下标错误排查
-    if(pos < 0 || pos > size)
+    if (pos < 0 || pos > size)
         return;
     int end = size - 1;
     checkSpace();
-    while(end >= pos) {
+    while (end >= pos) {
         dataList[end + 1] = dataList[end];
         end--;
     }
@@ -749,11 +765,11 @@ void SeqList<T>::insert(T t,int pos) {
 template<class T>
 void SeqList<T>::erase(int pos) {
     // 下标错误排查
-    if(pos < 0 || pos > size)
+    if (pos < 0 || pos > size)
         return;
     // 删除数据，[ pos - (size - 1) ]的数据往前挪,将数据覆盖
     int start = pos + 1;
-    while(start < size) {
+    while (start < size) {
         dataList[start - 1] = dataList[start];
         start++;
     }
@@ -775,7 +791,7 @@ void testSeqList() {
     sl.push_front(2);
     sl.pop_front();
     // 1 100 200 300 400 400 400 0
-    sl.insert(999,3);
+    sl.insert(999, 3);
     // 1 100 200 999 300 400 400 400 0
     sl.erase(3);
     // 1 100 200 300 400 400 400 0
@@ -801,44 +817,54 @@ class SLList {
 public:
     // 构造函数
     SLList() : head(nullptr) {}
+
     // 打印链表元素
     void printSLList();
+
     // 增删成员函数
     // 尾插
     void push_back(T t);
+
     // 前插
     void push_front(T t);
+
     // 尾删
     void pop_back();
+
     // 前删
     void pop_front();
+
     // 在第一个指定位置后插入一个数据（后插）
     void insert(T pos, T t);
+
     // 在第一个指定位置删除一个数据
     void erase(T pos);
+
     // 析构函数
     ~SLList() {
-        ListNode* node = head;
-        while(node != nullptr) {
-            ListNode* temp = node->next;
+        ListNode *node = head;
+        while (node != nullptr) {
+            ListNode *temp = node->next;
             delete node;
             node = temp;
         }
     }
+
     class ListNode {
     public:
-        ListNode* next; // 指针域
+        ListNode *next; // 指针域
         T data;         // 数据域
         ListNode(T x) : next(nullptr), data(x) {}
     };
+
 private:
-    ListNode* head;
+    ListNode *head;
 };
 
 template<class T>
 void SLList<T>::printSLList() {
-    ListNode* node = head;
-    while(node != nullptr) {
+    ListNode *node = head;
+    while (node != nullptr) {
         cout << node->data << " -> ";
         node = node->next;
     }
@@ -847,15 +873,15 @@ void SLList<T>::printSLList() {
 
 template<class T>
 void SLList<T>::push_back(T t) {
-    ListNode* node = head;
-    ListNode* newnode = new ListNode(t);
+    ListNode *node = head;
+    ListNode *newnode = new ListNode(t);
     // 检查头节点是否为空
     // 头节点为空
-    if(node == nullptr)
+    if (node == nullptr)
         head = newnode;
-    // 头节点非空
+        // 头节点非空
     else {
-        while(node->next != nullptr) {
+        while (node->next != nullptr) {
             node = node->next;
         }
         node->next = newnode;
@@ -865,9 +891,9 @@ void SLList<T>::push_back(T t) {
 template<class T>
 void SLList<T>::push_front(T t) {
     // 与尾插类似
-    ListNode* node = head;
-    ListNode* newnode = new ListNode(t);
-    if(head != nullptr) {
+    ListNode *node = head;
+    ListNode *newnode = new ListNode(t);
+    if (head != nullptr) {
         newnode->next = node;
     }
     head = newnode;
@@ -875,12 +901,12 @@ void SLList<T>::push_front(T t) {
 
 template<class T>
 void SLList<T>::pop_back() {
-    ListNode* node = head;
-    if(node == nullptr || node->next == nullptr) {
+    ListNode *node = head;
+    if (node == nullptr || node->next == nullptr) {
         head = nullptr;
         return;
     }
-    while(node->next->next != nullptr) {
+    while (node->next->next != nullptr) {
         node = node->next;
     }
     delete node->next;
@@ -889,8 +915,8 @@ void SLList<T>::pop_back() {
 
 template<class T>
 void SLList<T>::pop_front() {
-    ListNode* node = head;
-    if(node == nullptr || node->next == nullptr) {
+    ListNode *node = head;
+    if (node == nullptr || node->next == nullptr) {
         head = nullptr;
         return;
     }
@@ -899,19 +925,19 @@ void SLList<T>::pop_front() {
 }
 
 template<class T>
-void SLList<T>::insert(T pos,T t) {
-    ListNode* node = head;
-    ListNode* newnode = new ListNode(t);
-    if(head == nullptr)
+void SLList<T>::insert(T pos, T t) {
+    ListNode *node = head;
+    ListNode *newnode = new ListNode(t);
+    if (head == nullptr)
         return;
-    if(head->data == pos) {
+    if (head->data == pos) {
         newnode->next = head->next;
         head->next = newnode;
         return;
     }
-    while(node->next != nullptr) {
+    while (node->next != nullptr) {
         node = node->next;
-        if(node->data == pos)
+        if (node->data == pos)
             break;
     }
     newnode->next = node->next;
@@ -921,15 +947,15 @@ void SLList<T>::insert(T pos,T t) {
 template<class T>
 void SLList<T>::erase(T pos) {
     // 指定位置数据
-    ListNode* node = head;
-    if(head == nullptr || head->data == pos)
+    ListNode *node = head;
+    if (head == nullptr || head->data == pos)
         return;
-    while(node->next->next != nullptr) {
+    while (node->next->next != nullptr) {
         node = node->next;
-        if(node->next->data == pos)
+        if (node->next->data == pos)
             break;
     }
-    ListNode* tempnode = node->next;
+    ListNode *tempnode = node->next;
     node->next = tempnode->next;
     delete tempnode;
 }
@@ -943,7 +969,7 @@ void testSLList() {
     slList.push_back(777);
     // slList.pop_back();
     // slList.pop_front();
-    slList.insert(999,666);
+    slList.insert(999, 666);
     // 999 -> 666 -> 888 -> 777 -> nullptr
     slList.erase(888);
     slList.printSLList();
@@ -951,8 +977,8 @@ void testSLList() {
 }
 
 void getBinary(int n) {
-    for(int i = 0;i < 32;i++) {
-        cout << ((n>>i)&1) << " ";
+    for (int i = 0; i < 32; i++) {
+        cout << ((n >> i) & 1) << " ";
     }
 }
 
@@ -1036,46 +1062,57 @@ class DLList {
 public:
     class Listnode {
     public:
-        Listnode* prev;
-        Listnode* next;
+        Listnode *prev;
+        Listnode *next;
         T data;
+
         // Listnode() : prev(nullptr), next(nullptr) {}
         Listnode(T t) : prev(nullptr), next(nullptr), data(t) {}
     };
+
     DLList() {
         phead = new Listnode(0);
     }
+
     // 尾插
     void push_back(T t);
+
     // 头插
     void push_front(T t);
+
     // 尾删
     void pop_back();
+
     // 头删
     void pop_front();
+
     // 指定位置插入：指定位置之前插入一个结点
     void insert(T pos, T t);
+
     // 指定位置删除：
     void erase(T pos);
+
     // 打印链表
     void printList();
+
     // 构造函数
     ~DLList() {
-        Listnode* node = phead;
-        while(node != nullptr) {
-            Listnode* temp = node;
+        Listnode *node = phead;
+        while (node != nullptr) {
+            Listnode *temp = node;
             node = node->next;
             delete temp;
         }
     }
+
 private:
-    Listnode* phead;
+    Listnode *phead;
 };
 
 template<class T>
 void DLList<T>::push_back(T t) {
-    Listnode* newnode = new Listnode(t);
-    Listnode* node = phead;
+    Listnode *newnode = new Listnode(t);
+    Listnode *node = phead;
     if (phead->next == nullptr) {
         newnode->prev = phead;
         phead->next = newnode;
@@ -1090,8 +1127,8 @@ void DLList<T>::push_back(T t) {
 
 template<class T>
 void DLList<T>::push_front(T t) {
-    Listnode* newnode = new Listnode(t);
-    if(phead->next == nullptr) {
+    Listnode *newnode = new Listnode(t);
+    if (phead->next == nullptr) {
         phead->next = newnode;
         newnode->prev = phead;
         return;
@@ -1105,8 +1142,8 @@ void DLList<T>::push_front(T t) {
 
 template<class T>
 void DLList<T>::printList() {
-    Listnode* node = phead->next;
-    while(node != nullptr) {
+    Listnode *node = phead->next;
+    while (node != nullptr) {
         cout << node->data << " -> ";
         node = node->next;
     }
@@ -1115,23 +1152,23 @@ void DLList<T>::printList() {
 
 template<class T>
 void DLList<T>::pop_back() {
-    Listnode* node = phead;
-    if(phead->next == nullptr) {
+    Listnode *node = phead;
+    if (phead->next == nullptr) {
         return;
     }
-    while(node->next->next != nullptr) {
+    while (node->next->next != nullptr) {
         node = node->next;
     }
-    Listnode* temp = node->next;
+    Listnode *temp = node->next;
     delete temp;
     node->next = nullptr;
 }
 
 template<class T>
 void DLList<T>::pop_front() {
-    if(phead->next == nullptr)
+    if (phead->next == nullptr)
         return;
-    Listnode* temp = phead->next->next;
+    Listnode *temp = phead->next->next;
     delete phead->next;
     phead->next = temp;
     temp->prev = phead;
@@ -1139,15 +1176,15 @@ void DLList<T>::pop_front() {
 
 template<class T>
 void DLList<T>::insert(T pos, T t) {
-    Listnode* node = phead;
-    Listnode* newnode = new Listnode(t);
+    Listnode *node = phead;
+    Listnode *newnode = new Listnode(t);
     while (node->next != nullptr) {
-        if(node->next->data == pos) {
+        if (node->next->data == pos) {
             break;
         }
         node = node->next;
     }
-    Listnode* temp = node->next;
+    Listnode *temp = node->next;
     node->next = newnode;
     newnode->prev = node;
     newnode->next = temp;
@@ -1157,13 +1194,13 @@ void DLList<T>::insert(T pos, T t) {
 template<class T>
 void DLList<T>::erase(T pos) {
     // 删除pos
-    Listnode* node = phead;
-    if(node->next == nullptr)
+    Listnode *node = phead;
+    if (node->next == nullptr)
         return;
-    while(node->next != nullptr) {
-        if(node->next->data == pos) {
+    while (node->next != nullptr) {
+        if (node->next->data == pos) {
             // 删除
-            Listnode* temp = node->next;
+            Listnode *temp = node->next;
             node->next = temp->next;
             temp->prev = node;
             delete temp;
@@ -1174,7 +1211,7 @@ void DLList<T>::erase(T pos) {
 }
 
 void testSDList() {
-    DLList<int>dlList;
+    DLList<int> dlList;
     dlList.push_back(100);
     dlList.push_back(233);
     dlList.push_back(3);
@@ -1185,33 +1222,30 @@ void testSDList() {
     // 10 -> 100 -> nullptr
     dlList.pop_front();
     // 100 -> 233 -> 3 -> 13 -> nullptr
-    dlList.insert(3,50);
+    dlList.insert(3, 50);
     dlList.erase(13);
     // 100 -> 233 -> 50 -> 3 -> nullptr
     dlList.printList();
 }
 
-// 好孤单，一个人😭~
 
-
-
-int getMin(vector<int>& nums) {
+int getMin(vector<int> &nums) {
     int minret = INT32_MAX; // 或者max
     // 数组排序
-    sort(nums.begin(),nums.end());
+    sort(nums.begin(), nums.end());
     // 双指针
-    int left = 0,right = nums.size() - 1;
+    int left = 0, right = nums.size() - 1;
     int sum1 = nums[left], sum2 = nums[right];
-    left++;right--;
+    left++;
+    right--;
     // sum1 记录左队之和,sum2 记录右队之和
-    while(left <= right) {
-        if(sum1 < sum2) {
+    while (left <= right) {
+        if (sum1 < sum2) {
             sum1 += nums[left++];
-        }
-        else if(sum1 > sum2) {
+        } else if (sum1 > sum2) {
             sum2 += nums[right--];
         }
-        minret = min(minret,abs(sum1 - sum2));
+        minret = min(minret, abs(sum1 - sum2));
     }
     // cout << sum1 << " " << sum2 << endl;
     return minret;
@@ -1224,25 +1258,33 @@ class Stack {
 private:
     int size;
     int capacity;
-    T* arr;
+    T *arr;
+
     void checkSpace();
+
 public:
     Stack() : size(0), capacity(0) {
         arr = new T[5];
     }
+
     ~Stack() {
         size = 0;
         capacity = 0;
         arr = nullptr;
     }
+
     void push(T t);
+
     void pop();
+
     int getSize() {
         return size;
     }
+
     T top() {
         return arr[size - 1];
     }
+
     bool empty() {
         return size == 0;
     }
@@ -1250,10 +1292,10 @@ public:
 
 template<class T>
 void Stack<T>::checkSpace() {
-    if(size > capacity) {
+    if (size > capacity) {
         // 扩容
         capacity *= 2;
-        arr = (T*) realloc(arr, sizeof(T)*capacity);
+        arr = (T *) realloc(arr, sizeof(T) * capacity);
     }
 }
 
@@ -1266,12 +1308,12 @@ void Stack<T>::push(T t) {
 
 template<class T>
 void Stack<T>::pop() {
-    if(size > 0)
-    size--;
+    if (size > 0)
+        size--;
 }
 
 void testStack() {
-    Stack<int>stack;
+    Stack<int> stack;
     stack.push(100);
     stack.push(23);
 
@@ -1281,13 +1323,104 @@ void testStack() {
 
 }
 
+// 后续内容：Linux
 
+// 对于使用数组来实现队列，会出现假溢出的情况，因此出现了环形数组实现栈
+// 以至于充分利用空间
+// 有front和rear表示队头和队尾
+// front = (front + 1) % max_size
+// rear  = (rear  + 1) % max_size
+
+// 前置知识：
+
+// 0 1 2 3 4 5 6
+// 受不了，好强啊
+
+void test() {
+
+}
+
+// 优才计划
+
+
+// 脑子在boom~
+
+class CircularQueue {
+private:
+    int *arr;
+    int front;
+    int rear;
+    int capacity;   // max_size
+
+public:
+    CircularQueue() : front(0), rear(0), capacity(5) {
+        arr = new int[5];
+    }
+
+    // 判断队空
+    bool empty() {
+        return front == rear;
+    }
+
+    // 判断队满
+    bool full() {
+        return (rear + 1) % capacity == front;
+    }
+
+    void push(int t) {
+        if(full() || rear != 0) {
+            cout << "队列已满,不能入队~" << endl;
+            return;
+        }
+        arr[rear] = t;
+        rear = (rear + 1) % capacity;
+    }
+    int pop() {
+        if(empty()) {
+            cout << "队列已空,不能出队~" << endl;
+            return 0;
+        }
+        int temp = arr[front];
+        front = (front + 1) % capacity;
+        return temp;
+    }
+    int getfront() {
+        if(empty()) {
+            cout << "队列已空,不能出队~" << endl;
+            return 0;
+        }
+        return arr[front];
+    }
+    int getrear() {
+        if(empty()) {
+            cout << "队列已空,不能出队~" << endl;
+            return 0;
+        }
+        return arr[rear];
+    }
+    int getsize() {
+        return (rear - front + capacity) % capacity;
+    }
+
+};
+
+// 摸鱼：看小会儿Linux
+// 瞎玩一会儿，hhh
+
+void testCircleQueue() {
+    CircularQueue cirqueue;
+    cirqueue.push(100);
+    cirqueue.push(200);
+    cirqueue.push(300);
+    cirqueue.push(499);
+    cirqueue.push(444);
+    cirqueue.push(222);
+
+    cout << cirqueue.getfront() << endl;
+}
 
 int main() {
-    // testSDList();
-    // testStack();
-    // vector<int> v;
-
+    testCircleQueue();
     return 0;
 }
 
