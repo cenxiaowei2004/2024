@@ -1342,7 +1342,6 @@ void test() {
 
 // 优才计划
 
-
 // 脑子在boom~
 
 class CircularQueue {
@@ -1419,8 +1418,121 @@ void testCircleQueue() {
     cout << cirqueue.getfront() << endl;
 }
 
+
+// 二叉树的实现
+
+class BinaryTreeNode {
+public:
+    BinaryTreeNode* left;
+    BinaryTreeNode* right;
+    int data;
+    BinaryTreeNode(int val) : left(nullptr), right(nullptr), data(val) {}
+};
+
+class BinaryTree {
+public:
+    BinaryTreeNode* root;
+    BinaryTree() : root(nullptr) {}
+    BinaryTree(BinaryTreeNode* newroot) : root(newroot) {}
+    // 插入
+    void insert_left(BinaryTreeNode* root, int value);
+    void insert_right(BinaryTreeNode* root, int value);
+    // 遍历：
+    // 前中后、层序遍历
+    // 前序：中左右
+    void preOrder(BinaryTreeNode* node) {
+        if(node == nullptr) {
+            return;
+        }
+        cout << node->data << "->";
+        preOrder(node->left);
+        preOrder(node->right);
+    }
+    // 中序：左中右
+    void inOrder(BinaryTreeNode* node) {
+        if(node == nullptr) {
+            return;
+        }
+        inOrder(node->left);
+        cout << node->data << "->";
+        inOrder(node->right);
+    }
+    // 后序：左右中
+    void postOrder(BinaryTreeNode* node) {
+        if(node == nullptr) {
+            return;
+        }
+        postOrder(node->left);
+        postOrder(node->right);
+        cout << node->data << "->";
+    }
+    // 获取树的节点数
+    int getNodeSize(BinaryTreeNode* node) {
+        if(node == nullptr) {
+            return 0;
+        }
+        return 1 + getNodeSize(node->left) + getNodeSize(node->right);
+    }
+    // 层序遍历，应用：求二叉树第k层的节点数
+    void levelOrder(BinaryTreeNode* node) {
+
+
+    }
+
+    // 销毁二叉树
+    ~BinaryTree() {
+
+    }
+};
+
+void BinaryTree::insert_left(BinaryTreeNode* root, int value) {
+    if(root == nullptr)
+        return;
+    BinaryTreeNode node(value);
+    root->left = &node;
+}
+
+void BinaryTree::insert_right(BinaryTreeNode* root, int value) {
+    if(root == nullptr)
+        return;
+    BinaryTreeNode node(value);
+    root->right = &node;
+}
+
+void testTree() {
+    BinaryTreeNode* root = new BinaryTreeNode(123);
+    BinaryTreeNode* A = new BinaryTreeNode(12);
+    BinaryTreeNode* B = new BinaryTreeNode(11);
+    BinaryTreeNode* C = new BinaryTreeNode(4);
+    BinaryTreeNode* D = new BinaryTreeNode(3);
+    BinaryTree binaryTree(root);
+    root->left = A;
+    root->right = B;
+    B->right = C;
+    A->right = D;
+
+    binaryTree.preOrder(root);
+    cout << endl;
+    binaryTree.inOrder(root);
+    cout << endl;
+    binaryTree.postOrder(root);
+    cout << endl;
+    cout << binaryTree.getNodeSize(root);
+}
+
+// 二叉树的概念题目及一些结论
+
+// 根据遍历顺序来重建二叉树
+
+
+
+
+
 int main() {
-    testCircleQueue();
+    // testCircleQueue();
+    testTree();
     return 0;
 }
+
+
 
