@@ -1473,15 +1473,34 @@ public:
         }
         return 1 + getNodeSize(node->left) + getNodeSize(node->right);
     }
-    // 层序遍历，应用：求二叉树第k层的节点数
+    // 层序遍历
+    // 使用队列queue
     void levelOrder(BinaryTreeNode* node) {
-
-
+        queue<BinaryTreeNode*> q;
+        // 1、根节点进队列
+        // 2、队列不为空，出队头节点，并且把左右节点入队
+        // 3、直到队列为空结束
+        if(node == nullptr)
+            return;
+        q.push(node);
+        while(!q.empty()) {
+            cout << q.front()->data << "->";
+            if(q.front()->left) q.push(q.front()->left);
+            if(q.front()->right) q.push(q.front()->right);
+            q.pop();
+        }
     }
 
     // 销毁二叉树
+    void destory(BinaryTreeNode* node) {
+        if(node == nullptr)
+            return;
+        destory(node->right);
+        destory(node->left);
+        delete node;
+    }
     ~BinaryTree() {
-
+        destory(root);
     }
 };
 
@@ -1511,20 +1530,19 @@ void testTree() {
     B->right = C;
     A->right = D;
 
-    binaryTree.preOrder(root);
-    cout << endl;
-    binaryTree.inOrder(root);
-    cout << endl;
-    binaryTree.postOrder(root);
-    cout << endl;
-    cout << binaryTree.getNodeSize(root);
+    // binaryTree.preOrder(root);
+    // cout << endl;
+    // binaryTree.inOrder(root);
+    // cout << endl;
+    // binaryTree.postOrder(root);
+    // cout << endl;
+    // cout << binaryTree.getNodeSize(root);
+    binaryTree.levelOrder(root);
 }
 
 // 二叉树的概念题目及一些结论
 
 // 根据遍历顺序来重建二叉树
-
-
 
 
 
