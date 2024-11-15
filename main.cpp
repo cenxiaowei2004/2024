@@ -1545,6 +1545,65 @@ void testTree() {
 // 根据遍历顺序来重建二叉树
 
 
+// 算法实验报告
+// 图书管理系统
+
+
+
+class Book {
+private:
+    double price;
+    string name;
+    string author;
+    int isbn;
+    bool isBorrowed;
+public:
+    Book(double _price, string _name, string _author, int _isbn) :
+    price(_price), name(_name), author(_author), isbn(_isbn), isBorrowed(false) {}
+    string getName() { return name; }
+    string getAuthor() { return author; }
+    double getprice() { return price; }
+    double getIsbn() { return isbn; }
+    void setBorrowStatue(bool b) { isBorrowed = b; }
+    // ...
+};
+
+struct Library {
+private:
+    vector<Book> books;
+    // double price, string name, string author, int isbn
+    void addBook(const Book& book) {
+        // 特殊情况
+        // isbn、书名相同的情况下怎么处理
+        books.push_back(book);
+    }
+    Book deleteBook_isbn(int isbn) {
+        for(auto& book : books) {
+            if(book.getIsbn() == isbn) {
+                return book;
+            }
+        }
+    }
+    Book deleteBook_name(string name) {
+        for(auto& book : books) {
+            if(book.getName() == name) {
+                return book;
+            }
+        }
+    }
+
+};
+
+
+
+//根据位置查询图书信息
+//根据图书ID查询图书信息
+//根据图书名称查询图书信息
+//根据位置删除图书信息
+//根据图书ID删除图书信息
+//根据图书名称删除图书信息
+
+
 
 int main() {
     // testCircleQueue();
