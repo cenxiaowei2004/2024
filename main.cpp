@@ -1572,11 +1572,24 @@ struct Library {
 private:
     vector<Book> books;
     // double price, string name, string author, int isbn
-    void addBook(const Book& book) {
+    bool checkBook(Book& mybook) {
+        for(auto& book : books) {
+            if(book.getIsbn() == mybook.getIsbn() || book.getName() == mybook.getName()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+public:
+    void addBook(Book& book) {
         // 特殊情况
         // isbn、书名相同的情况下怎么处理
-        books.push_back(book);
+        if(checkBook(book)) {
+            books.push_back(book);
+        }
     }
+
     Book deleteBook_isbn(int isbn) {
         for(auto& book : books) {
             if(book.getIsbn() == isbn) {
@@ -1584,12 +1597,37 @@ private:
             }
         }
     }
+
     Book deleteBook_name(string name) {
         for(auto& book : books) {
             if(book.getName() == name) {
                 return book;
             }
         }
+    }
+
+    void findBook_name(string name) {
+        for(auto& book : books) {
+            if(book.getName() == name) {
+                cout << "为您找到了" << name << endl;
+                printBookInfo(book);
+            }
+        }
+    }
+
+    Book findBook_isbn(int isbn) {
+        for(auto& book : books) {
+            if(book.getIsbn() == isbn) {
+                return book;
+            }
+        }
+    }
+
+    void printBookInfo(Book& book) {
+        cout << "书名：" << book.getName() << endl;
+        cout << "作者：" << book.getAuthor() << endl;
+        cout << "价格：" << book.getprice() << endl;
+        cout << "ISBN：" << book.getIsbn() << endl;
     }
 
 };
@@ -1606,10 +1644,17 @@ private:
 
 
 int main() {
-    // testCircleQueue();
-    testTree();
+    Library library;
+    Book* book = new Book(23.1,"《毛泽东选集》","毛泽东",120384);
+
+    library.addBook(*book);
+    library.findBook_name("《毛泽东选集》");
+
     return 0;
 }
 
+// 寒假任务：做一个图书管理系统（结合C++作为基础语言(C++11 学完之后)、使用Qt制作图形化界面(花费1~2天进行进行基础的学习)）
+// 可以模拟该项目：
+// https://hzgdemo.app.hzgcloud.cn/library/%E7%AE%A1%E7%90%86%E5%91%98%E9%A6%96%E9%A1%B5
 
 
