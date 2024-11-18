@@ -1367,15 +1367,16 @@ public:
     }
 
     void push(int t) {
-        if(full() || rear != 0) {
+        if (full() || rear != 0) {
             cout << "队列已满,不能入队~" << endl;
             return;
         }
         arr[rear] = t;
         rear = (rear + 1) % capacity;
     }
+
     int pop() {
-        if(empty()) {
+        if (empty()) {
             cout << "队列已空,不能出队~" << endl;
             return 0;
         }
@@ -1383,20 +1384,23 @@ public:
         front = (front + 1) % capacity;
         return temp;
     }
+
     int getfront() {
-        if(empty()) {
+        if (empty()) {
             cout << "队列已空,不能出队~" << endl;
             return 0;
         }
         return arr[front];
     }
+
     int getrear() {
-        if(empty()) {
+        if (empty()) {
             cout << "队列已空,不能出队~" << endl;
             return 0;
         }
         return arr[rear];
     }
+
     int getsize() {
         return (rear - front + capacity) % capacity;
     }
@@ -1423,107 +1427,118 @@ void testCircleQueue() {
 
 class BinaryTreeNode {
 public:
-    BinaryTreeNode* left;
-    BinaryTreeNode* right;
+    BinaryTreeNode *left;
+    BinaryTreeNode *right;
     int data;
+
     BinaryTreeNode(int val) : left(nullptr), right(nullptr), data(val) {}
 };
 
 class BinaryTree {
 public:
-    BinaryTreeNode* root;
+    BinaryTreeNode *root;
+
     BinaryTree() : root(nullptr) {}
-    BinaryTree(BinaryTreeNode* newroot) : root(newroot) {}
+
+    BinaryTree(BinaryTreeNode *newroot) : root(newroot) {}
+
     // 插入
-    void insert_left(BinaryTreeNode* root, int value);
-    void insert_right(BinaryTreeNode* root, int value);
+    void insert_left(BinaryTreeNode *root, int value);
+
+    void insert_right(BinaryTreeNode *root, int value);
+
     // 遍历：
     // 前中后、层序遍历
     // 前序：中左右
-    void preOrder(BinaryTreeNode* node) {
-        if(node == nullptr) {
+    void preOrder(BinaryTreeNode *node) {
+        if (node == nullptr) {
             return;
         }
         cout << node->data << "->";
         preOrder(node->left);
         preOrder(node->right);
     }
+
     // 中序：左中右
-    void inOrder(BinaryTreeNode* node) {
-        if(node == nullptr) {
+    void inOrder(BinaryTreeNode *node) {
+        if (node == nullptr) {
             return;
         }
         inOrder(node->left);
         cout << node->data << "->";
         inOrder(node->right);
     }
+
     // 后序：左右中
-    void postOrder(BinaryTreeNode* node) {
-        if(node == nullptr) {
+    void postOrder(BinaryTreeNode *node) {
+        if (node == nullptr) {
             return;
         }
         postOrder(node->left);
         postOrder(node->right);
         cout << node->data << "->";
     }
+
     // 获取树的节点数
-    int getNodeSize(BinaryTreeNode* node) {
-        if(node == nullptr) {
+    int getNodeSize(BinaryTreeNode *node) {
+        if (node == nullptr) {
             return 0;
         }
         return 1 + getNodeSize(node->left) + getNodeSize(node->right);
     }
+
     // 层序遍历
     // 使用队列queue
-    void levelOrder(BinaryTreeNode* node) {
-        queue<BinaryTreeNode*> q;
+    void levelOrder(BinaryTreeNode *node) {
+        queue<BinaryTreeNode *> q;
         // 1、根节点进队列
         // 2、队列不为空，出队头节点，并且把左右节点入队
         // 3、直到队列为空结束
-        if(node == nullptr)
+        if (node == nullptr)
             return;
         q.push(node);
-        while(!q.empty()) {
+        while (!q.empty()) {
             cout << q.front()->data << "->";
-            if(q.front()->left) q.push(q.front()->left);
-            if(q.front()->right) q.push(q.front()->right);
+            if (q.front()->left) q.push(q.front()->left);
+            if (q.front()->right) q.push(q.front()->right);
             q.pop();
         }
     }
 
     // 销毁二叉树
-    void destory(BinaryTreeNode* node) {
-        if(node == nullptr)
+    void destory(BinaryTreeNode *node) {
+        if (node == nullptr)
             return;
         destory(node->right);
         destory(node->left);
         delete node;
     }
+
     ~BinaryTree() {
         destory(root);
     }
 };
 
-void BinaryTree::insert_left(BinaryTreeNode* root, int value) {
-    if(root == nullptr)
+void BinaryTree::insert_left(BinaryTreeNode *root, int value) {
+    if (root == nullptr)
         return;
     BinaryTreeNode node(value);
     root->left = &node;
 }
 
-void BinaryTree::insert_right(BinaryTreeNode* root, int value) {
-    if(root == nullptr)
+void BinaryTree::insert_right(BinaryTreeNode *root, int value) {
+    if (root == nullptr)
         return;
     BinaryTreeNode node(value);
     root->right = &node;
 }
 
 void testTree() {
-    BinaryTreeNode* root = new BinaryTreeNode(123);
-    BinaryTreeNode* A = new BinaryTreeNode(12);
-    BinaryTreeNode* B = new BinaryTreeNode(11);
-    BinaryTreeNode* C = new BinaryTreeNode(4);
-    BinaryTreeNode* D = new BinaryTreeNode(3);
+    BinaryTreeNode *root = new BinaryTreeNode(123);
+    BinaryTreeNode *A = new BinaryTreeNode(12);
+    BinaryTreeNode *B = new BinaryTreeNode(11);
+    BinaryTreeNode *C = new BinaryTreeNode(4);
+    BinaryTreeNode *D = new BinaryTreeNode(3);
     BinaryTree binaryTree(root);
     root->left = A;
     root->right = B;
@@ -1559,11 +1574,16 @@ private:
     bool isBorrowed;
 public:
     Book(double _price, string _name, string _author, int _isbn) :
-    price(_price), name(_name), author(_author), isbn(_isbn), isBorrowed(false) {}
+            price(_price), name(_name), author(_author), isbn(_isbn), isBorrowed(false) {}
+
     string getName() { return name; }
+
     string getAuthor() { return author; }
+
     double getprice() { return price; }
+
     double getIsbn() { return isbn; }
+
     void setBorrowStatue(bool b) { isBorrowed = b; }
     // ...
 };
@@ -1571,10 +1591,11 @@ public:
 struct Library {
 private:
     vector<Book> books;
+
     // double price, string name, string author, int isbn
-    bool checkBook(Book& mybook) {
-        for(auto& book : books) {
-            if(book.getIsbn() == mybook.getIsbn() || book.getName() == mybook.getName()) {
+    bool checkBook(Book &mybook) {
+        for (auto &book: books) {
+            if (book.getIsbn() == mybook.getIsbn() || book.getName() == mybook.getName()) {
                 return false;
             }
         }
@@ -1582,33 +1603,33 @@ private:
     }
 
 public:
-    void addBook(Book& book) {
+    void addBook(Book &book) {
         // 特殊情况
         // isbn、书名相同的情况下怎么处理
-        if(checkBook(book)) {
+        if (checkBook(book)) {
             books.push_back(book);
         }
     }
 
     Book deleteBook_isbn(int isbn) {
-        for(auto& book : books) {
-            if(book.getIsbn() == isbn) {
+        for (auto &book: books) {
+            if (book.getIsbn() == isbn) {
                 return book;
             }
         }
     }
 
     Book deleteBook_name(string name) {
-        for(auto& book : books) {
-            if(book.getName() == name) {
+        for (auto &book: books) {
+            if (book.getName() == name) {
                 return book;
             }
         }
     }
 
     void findBook_name(string name) {
-        for(auto& book : books) {
-            if(book.getName() == name) {
+        for (auto &book: books) {
+            if (book.getName() == name) {
                 cout << "为您找到了" << name << endl;
                 printBookInfo(book);
             }
@@ -1616,14 +1637,14 @@ public:
     }
 
     Book findBook_isbn(int isbn) {
-        for(auto& book : books) {
-            if(book.getIsbn() == isbn) {
+        for (auto &book: books) {
+            if (book.getIsbn() == isbn) {
                 return book;
             }
         }
     }
 
-    void printBookInfo(Book& book) {
+    void printBookInfo(Book &book) {
         cout << "书名：" << book.getName() << endl;
         cout << "作者：" << book.getAuthor() << endl;
         cout << "价格：" << book.getprice() << endl;
@@ -1643,18 +1664,71 @@ public:
 
 
 
-int main() {
-    Library library;
-    Book* book = new Book(23.1,"《毛泽东选集》","毛泽东",120384);
-
-    library.addBook(*book);
-    library.findBook_name("《毛泽东选集》");
-
-    return 0;
-}
+//int main() {
+//    Library library;
+//    Book* book = new Book(23.1,"《毛泽东选集》","毛泽东",120384);
+//
+//    library.addBook(*book);
+//    library.findBook_name("《毛泽东选集》");
+//
+//    return 0;
+//}
 
 // 寒假任务：做一个图书管理系统（结合C++作为基础语言(C++11 学完之后)、使用Qt制作图形化界面(花费1~2天进行进行基础的学习)）
 // 可以模拟该项目：
 // https://hzgdemo.app.hzgcloud.cn/library/%E7%AE%A1%E7%90%86%E5%91%98%E9%A6%96%E9%A1%B5
+
+
+
+
+class Solution {
+public:
+    // 暴力做法
+    vector<vector<int>> imageSmoother(vector<vector<int>> &img) {
+        // 对一个二维数组进行操作
+        // 如果一个单元格周围存在单元格缺失的情况，
+        // 则计算平均灰度时不考虑缺失的单元格（即，需要计算红色平滑器中 4
+        // 个单元格的平均值）
+        // 通过双层循环得到每一个点，来充当中心点
+        vector<vector<int>> imgtemp = img;
+        for (int i = 0; i < img.size(); i++) {
+            for (int j = 0; j < img[0].size(); j++) {
+                centersSmooth(imgtemp, img, i, j);
+            }
+        }
+        return img;
+    }
+
+    void centersSmooth(const vector<vector<int>> imgtemp, vector<vector<int>> &img, int i, int j) {
+        // 判断是否为有效位置
+        int range = img.size();
+        int sum = 0;
+        int count = 0;
+        for (int index1 = i - 1; index1 <= i + 1; index1++) {
+            for (int index2 = j - 1; index2 <= j + 1; index2++) {
+                if (index1 > 0 && index1 < range && index2 > 0 &&
+                    index2 < range) {
+                    sum += imgtemp[index1][index2];
+                    cout << index1 << " " << index2 << endl;
+                    count++;
+                }
+            }
+        }
+        int average = sum / count;
+        // cout << sum << " " << average << endl;
+        img[i][j] = average;
+    }
+};
+
+
+int main() {
+    vector<vector<int>> img = {{100, 200, 100},
+                               {200, 50,  200},
+                               {100, 200, 100}};
+    Solution s;
+    s.imageSmoother(img);
+    return 0;
+}
+
 
 
