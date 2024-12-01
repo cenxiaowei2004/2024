@@ -1721,14 +1721,70 @@ public:
 };
 
 
-int main() {
-    vector<vector<int>> img = {{100, 200, 100},
-                               {200, 50,  200},
-                               {100, 200, 100}};
-    Solution s;
-    s.imageSmoother(img);
-    return 0;
+// 左闭右开的二分查找算法
+// [left,right)
+int binarysearch(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size();
+    while(left < right) {
+        int middle = left + (right - left) / 2;     // 重要，防止溢出
+        if(nums[middle] > target)
+            right = middle;
+        else if(nums[middle] < target)
+            left = middle + 1;
+        else
+            return middle;
+    }
+    return -1;
 }
 
+// 由于进行小型比赛，为了提前适应，接下来对C++中的STL进一步熟悉，并且掌握一些小技巧（万能头文件...）
 
+void testSTL() {
+    vector<int>v;
+
+}
+
+// pair<string,int>p("aaa",1);
+
+
+
+//int main() {
+//    vector<int>v = {2,8,7,3,5,4};
+//    for(int i : v) {
+//        cout << i << " ";
+//    }
+//
+//    return 0;
+//}
+
+// 学习竞赛的基础知识：软件的操作、程序的简化方式...
+// 例如： #include <bits/stdc++.h> ：该头文件可以...
+
+// 概率论的第五章节需要完成
+// 英语六级单词
+
+#include <bits/stdc++.h>
+
+
+#include <cmath>  // 包含 log2 函数
+
+int binaryDigitsCount(int n) {
+    if (n == 0) return 1;  // 特殊情况处理：0的二进制表示为1位
+    return static_cast<int>(std::floor(std::log2(n))) + 1;
+}
+
+int main() {
+    int number = 10;  // 给定的整数
+    std::cout << "Number of binary digits in " << number << " is: " << binaryDigitsCount(number) << std::endl;
+    vector<int>v;
+    priority_queue<int>pq;
+    map<string,int> m;
+    m.insert(make_pair("sss",222));
+
+
+    // set不允许元素重复，如果有重复就会被忽略，但multiset允许
+    sort(v.begin(),v.end());
+    return 0;
+}
 
