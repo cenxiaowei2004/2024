@@ -1774,17 +1774,126 @@ int binaryDigitsCount(int n) {
     return static_cast<int>(std::floor(std::log2(n))) + 1;
 }
 
+class Solution100 {
+public:
+    int numRookCaptures(vector<vector<char>>& board) {
+        // 写道算法题醒醒脑😁
+        // 白色的车：'R'
+        // 还可能会有白色的象：'B',黑色的卒：'p'
+        // 空方快：'.'
+        int ans = 0;
+        int R_x, R_y = 0;
+        vector<vector<int>> goalgrid;
+        vector<vector<int>> elepgrid;
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board[0].size(); j++) {
+                if (board[i][j] == 'p')
+                    goalgrid.push_back({i, j});
+                else if (board[i][j] == 'R') {
+                    R_x = i;
+                    R_y = j;
+                } else if (board[i][j] == 'B')
+                    elepgrid.push_back({i, j});
+            }
+        }
+        // 现在将卒、象和车都分离开来了~
+
+        return ans;
+    }
+};
+
+class Solution200 {
+public:
+    int recursion(vector<int>& nums, int begin, int end) {
+        // 我要1在前，n在后的正常情况
+        int n = nums.size();
+        return begin + n - 1 - end;
+    }
+
+    int semiOrderedPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int begin, end = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 1) {
+                begin = i;
+            } else if (nums[i] == n) {
+                end = i;
+            }
+        }
+        if (begin > end) {
+            int ans = begin - end;
+            return min(ans + recursion(nums, end, end + 1),
+                       ans + recursion(nums, end + 1, begin));
+        }
+        return recursion(nums, begin, end);
+    }
+};
+
+
+class Solution120 {
+public:
+    int minAnagramLength(string s) {
+        // 将s的同位字符串输出
+        // 分成两截，如果相互不是t和t'的关系的话，返回s的原长
+        // 否则，返回s的（1/2）原长
+        // 怎么判断是否成关系呢？
+        // 也就是如果按照字典序排列的话，若二者相同则是，否则不是
+        int n = s.size();
+        string str1 = s.substr(0, n / 2 - 1);
+        string str2 = s.substr(n / 2, n - 1);
+        sort(str1.begin(), str1.end());
+        sort(str2.begin(), str2.end());
+        cout << str1 << " " << str2;
+        if (str1 == str2)
+            return n / 2;
+        else
+            return n;
+    }
+};
+
 int main() {
     int number = 10;  // 给定的整数
-    std::cout << "Number of binary digits in " << number << " is: " << binaryDigitsCount(number) << std::endl;
-    vector<int>v;
-    priority_queue<int>pq;
-    map<string,int> m;
-    m.insert(make_pair("sss",222));
+//    std::cout << "Number of binary digits in " << number << " is: " << binaryDigitsCount(number) << std::endl;
+//    vector<int>v;
+//    priority_queue<int>pq;
+//    map<string,int> m;
+//    m.insert(make_pair("sss",222));
 
+    vector<vector<int>> goalgrid;
+    goalgrid.push_back({1,2});
 
     // set不允许元素重复，如果有重复就会被忽略，但multiset允许
-    sort(v.begin(),v.end());
+    // sort(v.begin(),v.end());
+    // cout << pow(10,0.49);
+
+//    string s = "adaghhdg";
+//    string temp;
+//    for(auto i : s) {
+//        if(temp.find(i) == string::npos) {
+//            temp += i;
+//        }
+//    }
+//    cout << temp;
+    // string temp = "adgh"
+//    for(int i = 1;i <= 40;i++) {
+//        if(i++ % 5 == 0) {
+//            if(++i % 8 == 0) {
+//                cout << i;  // 打印 i
+//            }
+//        }
+//    }
+
+
+    // Solution120 s;
+    // cout << s.minAnagramLength("abba");
+//    string s = "asfgh";
+//    string t = s.substr(0,2);
+//    cout << t;
+
+
+    // 编译器，你好好~
+
+
     return 0;
 }
 
