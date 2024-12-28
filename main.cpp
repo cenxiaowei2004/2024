@@ -1723,14 +1723,14 @@ public:
 
 // 左闭右开的二分查找算法
 // [left,right)
-int binarysearch(vector<int>& nums, int target) {
+int binarysearch(vector<int> &nums, int target) {
     int left = 0;
     int right = nums.size();
-    while(left < right) {
+    while (left < right) {
         int middle = left + (right - left) / 2;     // 重要，防止溢出
-        if(nums[middle] > target)
+        if (nums[middle] > target)
             right = middle;
-        else if(nums[middle] < target)
+        else if (nums[middle] < target)
             left = middle + 1;
         else
             return middle;
@@ -1741,7 +1741,7 @@ int binarysearch(vector<int>& nums, int target) {
 // 由于进行小型比赛，为了提前适应，接下来对C++中的STL进一步熟悉，并且掌握一些小技巧（万能头文件...）
 
 void testSTL() {
-    vector<int>v;
+    vector<int> v;
 
 }
 
@@ -1776,7 +1776,7 @@ int binaryDigitsCount(int n) {
 
 class Solution100 {
 public:
-    int numRookCaptures(vector<vector<char>>& board) {
+    int numRookCaptures(vector<vector<char>> &board) {
         // 写道算法题醒醒脑😁
         // 白色的车：'R'
         // 还可能会有白色的象：'B',黑色的卒：'p'
@@ -1804,13 +1804,13 @@ public:
 
 class Solution200 {
 public:
-    int recursion(vector<int>& nums, int begin, int end) {
+    int recursion(vector<int> &nums, int begin, int end) {
         // 我要1在前，n在后的正常情况
         int n = nums.size();
         return begin + n - 1 - end;
     }
 
-    int semiOrderedPermutation(vector<int>& nums) {
+    int semiOrderedPermutation(vector<int> &nums) {
         int n = nums.size();
         int begin, end = 0;
         for (int i = 0; i < n; i++) {
@@ -1828,7 +1828,6 @@ public:
         return recursion(nums, begin, end);
     }
 };
-
 
 class Solution120 {
 public:
@@ -1851,20 +1850,51 @@ public:
     }
 };
 
-int main() {
-    int number = 10;  // 给定的整数
+class Solution10 {
+public:
+    bool isSubstringPresent(string s) {
+        int n = s.size();
+        // 会产生(n - 1)个长度为2的子字符串
+        vector<string> strarr(n - 1);
+        for (int i = 0; i < n - 1; i++) {
+            if (s[i] == s[i + 1])
+                return true;
+            string str = "";
+            str += s[i];
+            str += s[i + 1];
+            for (auto t: strarr) {
+                string temp = str;
+                reverse(temp.begin(), temp.end());
+                if (temp == t) {
+                    return true;
+                }
+            }
+            strarr.push_back(str);
+        }
+        return false;
+    }
+};
+
+//int main() {
+//    int number = 10;  // 给定的整数
+//    vector<int>v(number,0);
+//
+//
+//    Solution10 s;
+//    cout << s.isSubstringPresent("abcba");
+
 //    std::cout << "Number of binary digits in " << number << " is: " << binaryDigitsCount(number) << std::endl;
 //    vector<int>v;
 //    priority_queue<int>pq;
 //    map<string,int> m;
 //    m.insert(make_pair("sss",222));
 
-    vector<vector<int>> goalgrid;
-    goalgrid.push_back({1,2});
+//    vector<vector<int>> goalgrid;
+//    goalgrid.push_back({1,2});
 
-    // set不允许元素重复，如果有重复就会被忽略，但multiset允许
-    // sort(v.begin(),v.end());
-    // cout << pow(10,0.49);
+// set不允许元素重复，如果有重复就会被忽略，但multiset允许
+// sort(v.begin(),v.end());
+// cout << pow(10,0.49);
 
 //    string s = "adaghhdg";
 //    string temp;
@@ -1874,7 +1904,7 @@ int main() {
 //        }
 //    }
 //    cout << temp;
-    // string temp = "adgh"
+// string temp = "adgh"
 //    for(int i = 1;i <= 40;i++) {
 //        if(i++ % 5 == 0) {
 //            if(++i % 8 == 0) {
@@ -1884,16 +1914,132 @@ int main() {
 //    }
 
 
-    // Solution120 s;
-    // cout << s.minAnagramLength("abba");
+// Solution120 s;
+// cout << s.minAnagramLength("abba");
 //    string s = "asfgh";
 //    string t = s.substr(0,2);
 //    cout << t;
 
 
-    // 编译器，你好好~
+// 编译器，你好好~
 
+
+//    return 0;
+//}
+
+#include <chrono>
+
+// 快速排序
+int partition(vector<int> &nums, int left, int right) {
+    int base = nums[left];
+    while (right > left) {
+        while (right > left && nums[right] >= base) {
+            right--;
+        }
+        nums[left] = nums[right];
+        while (left < right && nums[left] <= base) {
+            left++;
+        }
+        nums[right] = nums[left];
+    }
+    nums[left] = base;
+    return left;    // 返回base的索引
+}
+
+void quickSort(vector<int> &nums, int left, int right) {
+    if (left < right) {
+        int pos = partition(nums, left, right);
+        quickSort(nums, left, pos - 1);
+        quickSort(nums, pos + 1, right);
+    }
+}
+
+void printArray(vector<int> &v) {
+    for (int i: v) {
+        cout << i << " ";
+    }
+    cout << endl;
+}
+
+void caluTime_quick_sort() {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // 要计时的代码段放在这里
+    vector<int> v = {3, 4, 6, 1, 2, 4, 7};
+    quickSort(v, 0, v.size() - 1);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "quick_sort runned time: " << elapsed.count() << " s.\n";
+    printArray(v);
+}
+
+void insertSort(vector<int> &nums) {
+    int temp = 0;
+    int n = nums.size();
+    int index = 0;
+    // 个数 == 1/0 直接退出
+    if (n == 1 || n == 0) {
+        return;
+    }
+    for (int i = 1; i < n; i++) {
+        if(nums[i] < nums[i - 1]) {
+            temp = nums[i];
+            // 插入 + 向后移动
+            for(index = i - 1; nums[index] > temp && index >= 0;index--) {
+                nums[index + 1] = nums[index];
+            }
+            nums[index + 1] = temp;
+        }
+    }
+}
+
+void caluTime_insert_sort() {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // 要计时的代码段放在这里
+    vector<int> v = {3, 4, 6, 1, 2, 4, 7};
+    insertSort(v);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "insert_sort runned time: " << elapsed.count() << " s.\n";
+    printArray(v);
+}
+
+void bubbleSort(vector<int> &nums) {
+    for (int i = nums.size() - 1; i >= 0; i--) {
+        for (int j = 0; j < i; j++) {
+            if (nums[j] > nums[j + 1])
+                swap(nums[j], nums[j + 1]);
+        }
+    }
+}
+
+void caluTime_bubble_sort() {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // 要计时的代码段放在这里
+    vector<int> v = {3, 4, 6, 1, 2, 4, 7};
+    bubbleSort(v);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "bubble_sort runned time: " << elapsed.count() << " s.\n";
+    printArray(v);
+}
+
+// difficult
+void shellSort() {
+
+}
+
+
+int main() {
+    // 进行快排、计算时间、打印结果
+    caluTime_quick_sort();
+    cout << endl;
+    // 进行冒泡排序、计算时间、打印结果
+    caluTime_bubble_sort();
+    cout << endl;
+    caluTime_insert_sort();
 
     return 0;
 }
-

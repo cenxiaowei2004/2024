@@ -1,16 +1,4 @@
 C:\Users\cen\AppData\Local\JetBrains\CLion2024.2\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=/cygdrive/d/application/CLion 2024.2.2/bin/ninja/cygwin/x64/ninja.exe" -G Ninja -S /cygdrive/d/C++_projects/test -B /cygdrive/d/C++_projects/test/cmake-build-debug
--- The C compiler identification is GNU 12.4.0
--- The CXX compiler identification is GNU 12.4.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /usr/bin/c++.exe - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Configuring done (17.1s)
+-- Configuring done (0.5s)
 -- Generating done (0.0s)
 -- Build files have been written to: /cygdrive/d/C++_projects/test/cmake-build-debug
