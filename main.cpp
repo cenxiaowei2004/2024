@@ -1982,10 +1982,10 @@ void insertSort(vector<int> &nums) {
         return;
     }
     for (int i = 1; i < n; i++) {
-        if(nums[i] < nums[i - 1]) {
+        if (nums[i] < nums[i - 1]) {
             temp = nums[i];
             // 插入 + 向后移动
-            for(index = i - 1; nums[index] > temp && index >= 0;index--) {
+            for (index = i - 1; nums[index] > temp && index >= 0; index--) {
                 nums[index + 1] = nums[index];
             }
             nums[index + 1] = temp;
@@ -2027,10 +2027,37 @@ void caluTime_bubble_sort() {
 }
 
 // difficult
-void shellSort() {
-
+// 希尔排序是直接插入排序的改进
+void shellSort(vector<int> &nums) {
+    int index = 0;
+    for (int d = nums.size() / 2; d >= 1; d /= 2) {
+        for (int i = d; i < nums.size(); i += d) {
+            if (nums[i] < nums[i - d]) {
+                // 进行移动
+                // swap(nums[i],nums[i - d]);
+                int temp = nums[i];
+                // 此方式借鉴了直接插入排序，节约代码，方便使用
+                for (index = i - d; nums[index] > temp && index >= 0; index -= d) {
+                    nums[index + d] = nums[index];
+                }
+                nums[index + d] = temp;
+            }
+        }
+    }
 }
 
+
+void caluTime_shell_sort() {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // 要计时的代码段放在这里
+    vector<int> v = {3, 4, 6, 1, 2, 4, 7};
+    shellSort(v);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "shell_sort runned time: " << elapsed.count() << " s.\n";
+    printArray(v);
+}
 
 int main() {
     // 进行快排、计算时间、打印结果
@@ -2040,6 +2067,18 @@ int main() {
     caluTime_bubble_sort();
     cout << endl;
     caluTime_insert_sort();
+    cout << endl;
+    // 进行希尔排序、计算时间、打印结果
+    caluTime_shell_sort();
+    cout << endl;
+
+
+    // sort可以让字符串按照字典序排序
+//    vector<string> votes = {"abs", "asc", "abd"};
+//    sort(votes.begin(), votes.end());
+//    for (auto i: votes) {
+//        cout << i << " ";
+//    }
 
     return 0;
 }
