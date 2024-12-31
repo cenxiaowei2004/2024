@@ -2059,26 +2059,70 @@ void caluTime_shell_sort() {
     printArray(v);
 }
 
-int main() {
-    // 进行快排、计算时间、打印结果
-    caluTime_quick_sort();
-    cout << endl;
-    // 进行冒泡排序、计算时间、打印结果
-    caluTime_bubble_sort();
-    cout << endl;
-    caluTime_insert_sort();
-    cout << endl;
-    // 进行希尔排序、计算时间、打印结果
-    caluTime_shell_sort();
-    cout << endl;
-
-
-    // sort可以让字符串按照字典序排序
+//int main() {
+//    // 进行快排、计算时间、打印结果
+//    caluTime_quick_sort();
+//    cout << endl;
+//    // 进行冒泡排序、计算时间、打印结果
+//    caluTime_bubble_sort();
+//    cout << endl;
+//    caluTime_insert_sort();
+//    cout << endl;
+//    // 进行希尔排序、计算时间、打印结果
+//    caluTime_shell_sort();
+//    cout << endl;
+//
+//    return 0;
+//}
+//    sort可以让字符串按照字典序排序
 //    vector<string> votes = {"abs", "asc", "abd"};
 //    sort(votes.begin(), votes.end());
 //    for (auto i: votes) {
 //        cout << i << " ";
 //    }
 
+
+// 链表的增删查改
+
+
+// 实现二分查找
+// 1.递归
+int binarySearch_recursion(vector<int> &nums, int left, int right, int targrt) {
+    if (left <= right) {
+        int mid = left + (right - left) / 2;    // 遇到数值较大的情况，相减可以防止超出范围
+        if (nums[mid] == targrt)
+            return mid;
+        else if (nums[mid] > targrt)
+            return binarySearch_recursion(nums, left, mid - 1, targrt);
+        else
+            return binarySearch_recursion(nums, mid + 1, right, targrt);
+    }
+    return -1;
+}
+
+// 2.迭代
+int binarySearch_iterate(vector<int> &nums, int target) {
+    int n = nums.size();
+    int left = 0, right = n - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;    // 遇到数值较大的情况，相减可以防止超出范围
+        if (nums[mid] == target)
+            return mid;
+        else if (nums[mid] > target)
+            right = mid - 1;
+        else
+            left = mid + 1;
+    }
+    // 表示无该数字
+    return -1;
+}
+
+int main() {
+    vector<int> v = {1, 2, 6, 43, 45, 66};
+    int target = 6;
+    int index1 = binarySearch_iterate(v, target);
+    cout << index1 << endl;
+    int index2 = binarySearch_recursion(v, 0, v.size() - 1, target);
+    cout << index2 << endl;
     return 0;
 }
