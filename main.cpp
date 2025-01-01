@@ -808,7 +808,7 @@ void testSeqList() {
 // 考研 or 工作 or 保研（没实力，已经pass了）
 // 考研：英语、数学、政治、专业、关注目标院校
 // 工作：C++、数据结构、操作系统、Linux网络编程、做项目、找实习、关注行业动态
-// 外部压力：父母催赶、大环境、赚钱money、创业😀（头发保命）
+// 外部压力：父母催赶、大环境、赚钱money、创业（头发保命）
 // 内心方向：以高中的努力，应该不会太差，211硕士没问题[狗头]
 //
 
@@ -856,6 +856,18 @@ public:
         T data;         // 数据域
         ListNode(T x) : next(nullptr), data(x) {}
     };
+
+    void append(SLList<T> &l) {
+        if (!l.head) return; // 如果l为空，则什么也不做
+        // 找到当前链表的最后一个节点
+        ListNode *node = head;
+
+        while (node->next != nullptr) {
+            node = node->next;
+        }
+        // 将当前链表的最后一个节点的下一个指向l的第一个节点
+        node->next = l.head;
+    }
 
 private:
     ListNode *head;
@@ -960,6 +972,7 @@ void SLList<T>::erase(T pos) {
     delete tempnode;
 }
 
+
 void testSLList() {
     SLList<int> slList;
     // slList.push_back(100);
@@ -967,14 +980,24 @@ void testSLList() {
     slList.push_back(999);
     slList.push_back(888);
     slList.push_back(777);
-    // slList.pop_back();
-    // slList.pop_front();
     slList.insert(999, 666);
     // 999 -> 666 -> 888 -> 777 -> nullptr
     slList.erase(888);
+    SLList<int> l;
+    l.push_back(1222);
+    l.push_back(123);
+    l.push_back(12222);
+    l.push_back(3333);
+    slList.append(l);
     slList.printSLList();
 
 }
+
+
+int main() {
+    testSLList();
+}
+
 
 void getBinary(int n) {
     for (int i = 0; i < 32; i++) {
@@ -1055,6 +1078,15 @@ namespace N {
 // 上面实现的是无头单向链表
 
 // 快捷键： Ctrl + Alt + L = 格式化代码
+
+
+
+
+
+
+
+
+
 
 // 下面实现带头双向循环链表
 template<class T>
@@ -2117,12 +2149,118 @@ int binarySearch_iterate(vector<int> &nums, int target) {
     return -1;
 }
 
-int main() {
-    vector<int> v = {1, 2, 6, 43, 45, 66};
-    int target = 6;
-    int index1 = binarySearch_iterate(v, target);
-    cout << index1 << endl;
-    int index2 = binarySearch_recursion(v, 0, v.size() - 1, target);
-    cout << index2 << endl;
-    return 0;
+void createNext(vector<int> &next, string t) {
+    // 0 0 ? ? ? ? ?
+    int j = 0;
+    next[2] = 1;
+    for (int i = 2; i < next.size(); i++) {
+        while (t[i] != t[j] && j > 0) {
+            j = next[j + 1];
+            if (t[i] == t[j])
+                j++;
+        }
+        next[i] = j;
+    }
 }
+
+bool KMP(string s, string t) {
+    // 进行字符串的匹配
+    // s : 主串
+    // t : 字串
+    int n = t.size();
+    vector<int> next(n + 1, 0);
+    createNext(next, t);
+
+
+}
+
+// 字符串T=“aabaaf”，我们求一下T的前缀表(用一个数组名为next的数组表示)
+// next:
+
+
+string binary(int x) {
+    string s;
+    while (x) {
+        s.push_back('0' + (x & 1));
+        x >>= 1;
+    }
+    reverse(s.begin(), s.end());
+    return s;
+}
+
+
+typedef struct Lnode {
+    Lnode *next;
+    int data;
+
+    Lnode(int value) : data(value), next(nullptr) {}
+} Lnode;
+
+typedef Lnode *Linklist;
+// Linklist 是 node结构体的指针
+
+// 设计一个算法delminnode(Linklist* &L)，
+// 在带头结点的单链表L中删除所有结点值最小的结点(可能有多个结点值最小的结点）
+// 此方法较为复杂，可能还有简化的余地~
+void delminnode(Linklist &head) {
+    if (!head || !(head->next)) {
+        return;
+    }
+    // 中间变量 node，防止污染 head
+    Lnode *node = head->next;
+    int minvalue = node->data;
+    // 找到最小结点（遍历）
+    while (node != nullptr) {
+        minvalue = min(minvalue, node->data);
+        node = node->next;
+    }
+    node = head;
+    while (node->next != nullptr) {
+        if (node->next->data == minvalue) {
+            // 删除操作
+            Linklist temp = node->next;
+            node->next = temp->next;
+        } else {
+            node = node->next;
+        }
+    }
+}
+
+void insertNode(Linklist &head, int value) {
+    Lnode *newnode = new Lnode(value);
+    if (!head || !head->next) { // 如果链表为空（包括头结点），则创建头结点
+        if (!head) {
+            head = new Lnode(0); // 创建一个带头结点的空链表
+        }
+        head->next = newnode;
+    } else {
+        Lnode *node = head;
+        while (node->next != nullptr) {
+            node = node->next;
+        }
+        node->next = newnode;
+    }
+}
+
+void print(Linklist &head) {
+    Lnode *node = head->next;
+    while (node != nullptr) {
+        cout << node->data << " ";
+        node = node->next;
+    }
+}
+
+//int main() {
+//    Linklist L = new Lnode(0);
+//    insertNode(L, 100);
+//    insertNode(L, 22);
+//    insertNode(L, 46);
+//    insertNode(L, 1);
+//    insertNode(L, 99);
+//    insertNode(L, 1);
+//    print(L);
+//    cout << endl;
+//    delminnode(L);
+//    print(L);
+//    return 0;
+//}
