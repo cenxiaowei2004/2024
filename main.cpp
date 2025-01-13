@@ -994,9 +994,9 @@ void testSLList() {
 }
 
 
-int main() {
-    testSLList();
-}
+//int main() {
+//    testSLList();
+//}
 
 
 void getBinary(int n) {
@@ -2264,3 +2264,219 @@ void print(Linklist &head) {
 //    print(L);
 //    return 0;
 //}
+
+//int main() {
+//    string ans = "";
+//    ans = ans + 'c' + 'c';
+//    return 0;
+//}
+
+//int main() {
+//    string s = "aaa";
+//    // 创建字符串
+//    cout << s[2];
+//    return 0;
+//}
+
+
+// 1.返回值为A和A&的区别
+// 2.this指针的含义
+
+
+// 日期类
+class Date {
+private:
+    int year;
+    int month;
+    int day;
+    // 获取月份天数
+    int montharr[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    int getMonthday(int _year, int _month) {
+        if (_month == 2 && (((_year % 4 == 0) && (_year % 100 != 0)) || ((_year % 100 == 0) && (_year % 400 == 0))))
+            // 闰年
+            return 29;
+        return montharr[_month];
+    }
+
+public:
+    // 构造函数
+    Date(int _year = 0, int _month = 0, int _day = 0) {
+        if (_month > 0 && _day > 0 && _year > 0) {
+            year = _year;
+            month = _month;
+            day = _day;
+        } else {
+            cout << "日期非法！" << endl;
+        }
+    }
+
+    // 打印日期
+    void printDate();
+
+    // +/- 日期
+    Date &operator-=(int _day);
+    Date &operator+=(int _day);
+    Date operator+(int _day);
+    Date operator-(int _day);
+    Date &operator--();
+    Date &operator++();
+    // 日期比较
+    bool operator>(const Date &d);
+    bool operator>=(const Date &d);
+    bool operator<(const Date &d);
+    bool operator<=(const Date &d);
+    bool operator==(const Date &d);
+    bool operator!=(const Date &d);
+    // 日期 - 日期 : 返回相差天数
+    int operator-(const Date& d);
+
+
+};
+
+void Date::printDate() {
+    cout << year << "年" << month << "月" << day << "日" << endl;
+}
+
+
+// 如何调整 + 日期？
+// 1.若日已满，则日减去当前月的天数，月加一。
+// 2.若月已满，则将年加一，月置为1。
+// 反复执行1和2，直到日期合法为止。
+
+Date &Date::operator+=(int _day) {
+    // 负数：复用operator-=
+    if (_day < 0) {
+        *this -= _day;
+    } else {
+        day += _day;
+        int curmonth = getMonthday(year, month);
+        while (day > curmonth) {
+            day -= curmonth;
+            month++;
+            if (month > 12) {
+                year++;
+                month = 1;
+            }
+        }
+    }
+    return *this;
+}
+
+Date Date::operator+(int _day) {
+    Date temp(year, month, day);
+    temp += _day;
+    return temp;
+}
+
+Date &Date::operator++() {
+    *this += 1;
+    return *this;
+}
+
+// 如何调整 - 日期：
+// 1.若日为负数，则月减一。
+// 2.若月为0，则年减一，月置为12。
+// 3.日加上当前月的天数。
+Date &Date::operator-=(int _day) {
+    if (_day < 0) {
+        *this += -day;
+    } else {
+        day -= _day;
+        while (day < 0) {
+            month--;
+            day += getMonthday(year, month);
+            if (month < 1) {
+                year--;
+                month = 12;
+            }
+        }
+    }
+    return *this;
+}
+
+Date Date::operator-(int _day) {
+    Date temp(*this);
+    temp -= _day;
+    return temp;
+}
+
+Date &Date::operator--() {
+    *this -= 1;
+    return *this;
+}
+
+bool Date::operator==(const Date &d) {
+    return year == d.year && month == d.month && day == d.day;
+}
+
+
+bool Date::operator>(const Date &d) {
+    if (year > d.year)
+        return true;
+    else {
+        if (month > d.month)
+            return true;
+        else {
+            if (day > d.month)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool Date::operator>=(const Date &d) {
+    return *this > d || *this == d;
+}
+
+bool Date::operator<(const Date &d) {
+    if (year < d.year)
+        return true;
+    else {
+        if (month < d.month)
+            return true;
+        else {
+            if (day < d.month)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool Date::operator<=(const Date &d) {
+    return *this < d || *this == d;
+}
+
+bool Date::operator!=(const Date &d) {
+    return !(*this == d);
+}
+
+int Date::operator-(const Date& d) {
+    Date min = d;
+    Date max = *this;
+    int n = 0;
+    if(*this < d) {
+        min = *this;
+        max = d;
+    }
+    while (min != max) {
+        ++min;
+        n++;
+    }
+    return n;
+}
+
+
+//int main() {
+//    Date date1(2024, 12, 4);
+//    Date date2(2025, 1, 13);
+//    cout << (date1 > date2) << endl;
+//    date1 -= 12;
+//    cout << (date1 - date2);
+//    return 0;
+//}
+
+
+
+
+
