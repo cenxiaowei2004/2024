@@ -4,4 +4,5 @@ project(test)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(test main.cpp
-        25_01_13.cpp)
+        25_01_13.cpp
+        bigHeap.cpp)

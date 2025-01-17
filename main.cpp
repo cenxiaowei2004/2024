@@ -2163,16 +2163,16 @@ void createNext(vector<int> &next, string t) {
     }
 }
 
-bool KMP(string s, string t) {
-    // 进行字符串的匹配
-    // s : 主串
-    // t : 字串
-    int n = t.size();
-    vector<int> next(n + 1, 0);
-    createNext(next, t);
-
-
-}
+//bool KMP(string s, string t) {
+//    // 进行字符串的匹配
+//    // s : 主串
+//    // t : 字串
+//    int n = t.size();
+//    vector<int> next(n + 1, 0);
+//    createNext(next, t);
+//
+//
+//}
 
 // 字符串T=“aabaaf”，我们求一下T的前缀表(用一个数组名为next的数组表示)
 // next:
@@ -2465,6 +2465,14 @@ int Date::operator-(const Date& d) {
     }
     return n;
 }
+
+
+//int main() {
+//    // B = C & (~A)
+//    cout << (118 & (~22));
+//    // 22 | 100 = 118
+//    return 0;
+//}
 
 
 //int main() {

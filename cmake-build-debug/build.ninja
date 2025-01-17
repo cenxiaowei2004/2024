@@ -61,6 +61,12 @@ build CMakeFiles/test.dir/25_01_13.cpp.o: CXX_COMPILER__test_unscanned_Debug /cy
   OBJECT_DIR = CMakeFiles/test.dir
   OBJECT_FILE_DIR = CMakeFiles/test.dir
 
+build CMakeFiles/test.dir/bigHeap.cpp.o: CXX_COMPILER__test_unscanned_Debug /cygdrive/d/C++_projects/test/bigHeap.cpp || cmake_object_order_depends_target_test
+  DEP_FILE = CMakeFiles/test.dir/bigHeap.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/test.dir
+  OBJECT_FILE_DIR = CMakeFiles/test.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target test
@@ -69,7 +75,7 @@ build CMakeFiles/test.dir/25_01_13.cpp.o: CXX_COMPILER__test_unscanned_Debug /cy
 #############################################
 # Link the executable test.exe
 
-build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/main.cpp.o CMakeFiles/test.dir/25_01_13.cpp.o
+build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/main.cpp.o CMakeFiles/test.dir/25_01_13.cpp.o CMakeFiles/test.dir/bigHeap.cpp.o
   FLAGS = -g
   LINK_FLAGS = -Wl,--enable-auto-import
   OBJECT_DIR = CMakeFiles/test.dir
