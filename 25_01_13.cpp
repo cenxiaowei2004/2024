@@ -50,6 +50,7 @@ public:
 
     // 向上调整算法
     void adjustup(int child);
+
     explicit Heap(vector<int> &nums) : v(nums), size(nums.size()) {
         initHeap(size);
     }
@@ -73,13 +74,13 @@ public:
     bool empty() const;
 
     // topk问题
-    void topk(vector<int>& arr,int k) {
-        vector<int> top(arr.begin(),arr.begin() + k);
+    void topk(vector<int> &arr, int k) {
+        vector<int> top(arr.begin(), arr.begin() + k);
         Heap temp(top);
-        for(int i = k;i < arr.size();i++) {
-            if(arr[i] > temp.top()) {
+        for (int i = k; i < arr.size(); i++) {
+            if (arr[i] > temp.top()) {
                 temp.v[0] = arr[i];
-                adjustdown(0,k);
+                adjustdown(0, k);
             }
         }
         temp.printv();
@@ -153,13 +154,184 @@ bool Heap::empty() const {
 }
 
 
-int main() {
-    int k = 6;
-    vector<int> arr = {47, 83, 12, 65, 34, 98, 27, 100};
-    vector<int> topk(arr.begin(),arr.begin() + k);
-    Heap h(arr);
-    h.topk(arr,k);
+//int main() {
+//    int k = 6;
+//    vector<int> arr = {47, 83, 12, 65, 34, 98, 27, 100};
+//    vector<int> topk(arr.begin(),arr.begin() + k);
+//    Heap h(arr);
+//    h.topk(arr,k);
+//
+//    return 0;
+//}
 
+
+
+class Sort {
+private:
+    vector<int> nums;
+
+    // 堆：下滤操作(大根堆)
+    void Down(int root) {
+        int parent = root;
+        int child = 2 * parent + 1;
+        // 默认左孩子为较大值
+        while (child < nums.size()) {
+            if (child + 1 < nums.size() && nums[child] < nums[child + 1])
+                child++;
+            if (nums[parent] < nums[child]) {
+                swap(nums[parent], nums[child]);
+                parent = child;
+                child = 2 * parent + 1;
+            } else {
+                break;
+            }
+        }
+    }
+
+public:
+    explicit Sort(vector<int> &v) : nums(v) {}
+
+    // 打印数组
+    void printnums() {
+        for (int i: nums) {
+            cout << i << " ";
+        }
+    };
+
+    // 插入排序
+    void InsertSort() {
+        if (nums.size() <= 1)
+            return;
+        for (int i = 1; i < nums.size(); i++) {
+            int j = i;
+            // 因为前面已经有序
+            while (j >= 0 && nums[j] < nums[j - 1]) {
+                swap(nums[j], nums[j - 1]);
+                j--;
+            }
+        }
+    }
+
+    // 希尔排序
+    void ShellSort() {
+        int gap = nums.size();
+        while (gap > 0) {
+            gap /= 2;
+            for (int i = 0; i < nums.size(); i++) {
+                int j = i;
+                while (j - gap >= 0 && nums[j] < nums[j - gap]) {
+                    swap(nums[j], nums[j - gap]);
+                    j -= gap;
+                }
+            }
+        }
+    }
+
+    // 选择排序(每次选出最小值)
+    void SelectSort_single() {
+        for (int i = 0; i < nums.size(); i++) {
+            int min = i;
+            for (int j = i; j < nums.size(); j++) {
+                if (nums[j] < nums[min]) {
+                    min = j;
+                }
+            }
+            swap(nums[i], nums[min]);
+        }
+    }
+
+    // 选择排序(每次选出最小值和最大值)
+    void SelectSort_double() {
+        int min = 0;
+        int max = nums.size() - 1;
+        while (min < max) {
+            int minindex = min;
+            int maxindex = min;
+            for (int i = min; i <= max; i++) {
+                if (nums[minindex] > nums[i])
+                    minindex = i;
+                if (nums[maxindex] < nums[i])
+                    maxindex = i;
+            }
+            swap(nums[maxindex], nums[max]);
+            if (min == maxindex) {
+                maxindex = minindex;
+            }
+            swap(nums[minindex], nums[min]);
+            min++;
+            max--;
+        }
+    }
+
+    // 堆排序(升序：建立大根堆)
+    void HeapSort() {
+        for (int i = (int) ((nums.size() - 1) / 2); i >= 0; i--) {
+            Down(i);
+        }
+    }
+
+    // 冒泡排序
+    void BubbleSort() {
+        bool flag = true;
+        for (int i = 0; i < nums.size() - 1; i++) {
+            for (int j = 0; j < nums.size() - 1 - i; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    swap(nums[j], nums[j + 1]);
+                    flag = false;
+                }
+            }
+            if (flag)
+                break;
+        }
+    }
+
+    // 坑位法
+    int PartSort(int left, int right) {
+        int pivot = nums[left];
+        while (left < right) {
+            while (left < right && nums[right] > pivot)
+                right--;
+            nums[left] = nums[right];
+            while (left < right && nums[left] < pivot)
+                left++;
+            nums[right] = nums[left];
+        }
+        nums[left] = pivot;
+        return left;
+    }
+
+    // 快速排序(以nums[0]为pivot)
+    void QuickSort(int left, int right) {
+        if (left < right) {
+            int index = PartSort(left, right);
+            QuickSort(left, index - 1);
+            QuickSort(index + 1, right);
+        }
+    }
+
+
+};
+
+// Linux + 数据库
+
+// 快速排序的多种实现
+// 归并排序
+// 树的不同种类
+// 哈希...
+
+
+
+
+int main() {
+    vector<int> v = {5, 2, 8, 4, 6, 99, 1};
+    Sort sort(v);
+    // sort.InsertSort();
+    // sort.ShellSort();
+    // sort.SelectSort_double();
+    // sort.HeapSort();
+    // sort.BubbleSort();
+    sort.QuickSort(0, v.size() - 1);
+    sort.printnums();
     return 0;
 }
 
