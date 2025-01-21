@@ -286,7 +286,7 @@ public:
     }
 
     // 坑位法
-    int PartSort(int left, int right) {
+    int QuickPartSort(int left, int right) {
         int pivot = nums[left];
         while (left < right) {
             while (left < right && nums[right] > pivot)
@@ -303,14 +303,50 @@ public:
     // 快速排序(以nums[0]为pivot)
     void QuickSort(int left, int right) {
         if (left < right) {
-            int index = PartSort(left, right);
+            int index = QuickPartSort(left, right);
             QuickSort(left, index - 1);
             QuickSort(index + 1, right);
         }
     }
 
 
+    void MergePartSort(int left, int right, vector<int> &temp) {
+        if (left >= right)
+            return;
+        int i = left;
+        // 分割
+        int mid = left + (right - left) / 2;    // 防止整型溢出
+        MergePartSort(left, mid, temp);
+        MergePartSort(mid + 1, right, temp);
+        // 合并
+        int begin1 = left, end1 = mid;
+        int begin2 = mid + 1, end2 = right;
+        while (begin1 <= end1 && begin2 <= end2) {
+            if (nums[begin1] < nums[begin2])
+                temp[i++] = nums[begin1++];
+            else
+                temp[i++] = nums[begin2++];
+        }
+        while (begin1 <= end1)
+            temp[i++] = nums[begin1++];
+        while (begin2 <= end2)
+            temp[i++] = nums[begin2++];
+        // 将临时数组中的排序结果复制回原数组
+        for (int j = left; j <= right; ++j) {
+            nums[j] = temp[j];
+        }
+    }
+
+    // 归并排序
+    void MergeSort(int left, int right) {
+        vector<int> temp(right + 1);
+        MergePartSort(left, right, temp);
+    }
+
+
 };
+
+
 
 // Linux + 数据库
 
@@ -330,7 +366,8 @@ int main() {
     // sort.SelectSort_double();
     // sort.HeapSort();
     // sort.BubbleSort();
-    sort.QuickSort(0, v.size() - 1);
+    // sort.QuickSort(0, v.size() - 1);
+    sort.MergeSort(0, v.size() - 1);
     sort.printnums();
     return 0;
 }
