@@ -300,9 +300,31 @@ public:
         return left;
     }
 
+    //三数取中
+    int GetMidIndex(int left, int right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] > nums[left]) {
+            if (nums[mid] < nums[right])
+                return mid;
+            else if (nums[left] > nums[right])
+                return left;
+            else
+                return right;
+        } else {
+            if (nums[mid] > nums[right])
+                return mid;
+            else if (nums[left] > nums[right])
+                return right;
+            else
+                return left;
+        }
+    }
+
     // 快速排序(以nums[0]为pivot)
     void QuickSort(int left, int right) {
         if (left < right) {
+            int midindex = GetMidIndex(left,right);
+            swap(nums[midindex],nums[left]);
             int index = QuickPartSort(left, right);
             QuickSort(left, index - 1);
             QuickSort(index + 1, right);
@@ -343,9 +365,39 @@ public:
         MergePartSort(left, right, temp);
     }
 
+    // 计数排序
+    void CountSort() {
+        int max = INT_MIN;
+        int min = INT_MAX;
+        for (int i: nums) {
+            if (i > max)
+                max = i;
+            if (i < min)
+                min = i;
+        }
+        vector<int> Countarr(max - min + 1);
+        for (int i: nums) {
+            Countarr[i - min]++;
+        }
+        int index = 0;
+        for (int i = 0; i < Countarr.size(); i++) {
+            while (Countarr[i] > 0) {
+                nums[index++] = i + min;
+                Countarr[i]--;
+            }
+        }
+    }
+
 
 };
 
+
+
+
+int main() {
+
+    return 0;
+}
 
 
 // Linux + 数据库
@@ -358,19 +410,20 @@ public:
 
 
 
-int main() {
-    vector<int> v = {5, 2, 8, 4, 6, 99, 1};
-    Sort sort(v);
-    // sort.InsertSort();
-    // sort.ShellSort();
-    // sort.SelectSort_double();
-    // sort.HeapSort();
-    // sort.BubbleSort();
-    // sort.QuickSort(0, v.size() - 1);
-    sort.MergeSort(0, v.size() - 1);
-    sort.printnums();
-    return 0;
-}
+//int main() {
+//    vector<int> v = {5, 2, 8, 4, 6, 99, 1};
+//    Sort sort(v);
+//    // sort.InsertSort();
+//    // sort.ShellSort();
+//    // sort.SelectSort_double();
+//    // sort.HeapSort();
+//    // sort.BubbleSort();
+//    sort.QuickSort(0, v.size() - 1);
+//    // sort.MergeSort(0, v.size() - 1);
+//    sort.CountSort();
+//    sort.printnums();
+//    return 0;
+//}
 
 //void Heap::adjustdown(int root) {
 //    int parent = root;
