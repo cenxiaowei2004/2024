@@ -391,24 +391,128 @@ public:
 
 };
 
+//BSTree结点类
+template<class K>
+class BSTreeNode {
+public:
+    K key;                 //结点值
+    BSTreeNode<K>* left;   //左指针
+    BSTreeNode<K>* right;  //右指针
+public:
+    //构造函数
+    explicit BSTreeNode(const K& key = 0) : key(key), left(nullptr), right(nullptr) {}
+};
 
+// BSTree类
+template<class K>
+class BSTree {
+public:
+    // 根结点
+    BSTreeNode<K>* root;
+public:
+    //构造函数
+    BSTree() : root(nullptr) {}
+
+    //拷贝构造函数
+    BSTree(const BSTree<K>& tree) {
+        if(tree == nullptr)
+            return;
+        BSTreeNode<K> newroot = new BSTreeNode<K>(tree.root->key);
+        newroot.left = tree.root->left;
+        newroot.right = tree.root->right;
+        this->root = newroot;
+    }
+
+    //赋值运算符重载函数:深拷贝
+    //现代写法
+    BSTree<K>& operator=(BSTree<K> tree) //编译器接收右值的时候自动调用拷贝构造函数
+    {
+        swap(root, tree.root);  //交换这两个对象的二叉搜索树
+        return *this;           //支持连续赋值
+    }
+
+    //释放树中结点
+    void Destory(BSTreeNode<K>* rt)
+    {
+        if (rt == nullptr) //空树无需释放
+            return;
+
+        Destory(rt->left); //释放左子树中的结点
+        Destory(rt->right); //释放右子树中的结点
+        delete rt; //释放根结点
+    }
+    //析构函数
+    ~BSTree() {
+        Destory(root);
+        delete root;
+    }
+
+    //插入函数
+    bool Insert(const K& key) {
+
+    }
+
+    //删除函数
+    bool Erase(const K& key) {
+
+    }
+
+    //查找函数
+    BSTreeNode<K>* Find(const K& key) {
+
+    }
+
+    //中序遍历
+    void inorderPaet(BSTreeNode<K>* rt) {
+        if(rt == nullptr)
+            return;
+        inorderPaet(rt->left);
+        cout << rt->key << " ";
+        inorderPaet(rt->right);
+    }
+    void InOrder() {
+        inorderPaet(root);
+        cout << endl;
+    }
+
+};
 
 
 int main() {
+    auto root = new BSTreeNode<int>(100);
+    auto node2 = new BSTreeNode<int>(200);
+    auto node3 = new BSTreeNode<int>(300);
+    auto node4 = new BSTreeNode<int>(500);
+    auto node5 = new BSTreeNode<int>(600);
 
+    root->right = node2;
+    root->left = node3;
+    node3->right = node4;
+    node4->left = node5;
+
+    BSTree<int> bstree;
+    bstree.root = root;
+    bstree.InOrder();
+
+    delete root;
+    delete node2;
+    delete node3;
+    delete node4;
+    delete node5;
+
+    // delete node;
     return 0;
 }
 
 
 // Linux + 数据库
 
-// 快速排序的多种实现
-// 归并排序
+
 // 树的不同种类
 // 哈希...
 
 
-
+// 😟
 
 //int main() {
 //    vector<int> v = {5, 2, 8, 4, 6, 99, 1};
