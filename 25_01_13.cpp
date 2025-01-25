@@ -323,8 +323,8 @@ public:
     // 快速排序(以nums[0]为pivot)
     void QuickSort(int left, int right) {
         if (left < right) {
-            int midindex = GetMidIndex(left,right);
-            swap(nums[midindex],nums[left]);
+            int midindex = GetMidIndex(left, right);
+            swap(nums[midindex], nums[left]);
             int index = QuickPartSort(left, right);
             QuickSort(left, index - 1);
             QuickSort(index + 1, right);
@@ -396,11 +396,11 @@ template<class K>
 class BSTreeNode {
 public:
     K key;                 //结点值
-    BSTreeNode<K>* left;   //左指针
-    BSTreeNode<K>* right;  //右指针
+    BSTreeNode<K> *left;   //左指针
+    BSTreeNode<K> *right;  //右指针
 public:
     //构造函数
-    explicit BSTreeNode(const K& key = 0) : key(key), left(nullptr), right(nullptr) {}
+    explicit BSTreeNode(const K &key = 0) : key(key), left(nullptr), right(nullptr) {}
 };
 
 // BSTree类
@@ -408,14 +408,14 @@ template<class K>
 class BSTree {
 public:
     // 根结点
-    BSTreeNode<K>* root;
+    BSTreeNode<K> *root;
 public:
     //构造函数
     BSTree() : root(nullptr) {}
 
     //拷贝构造函数
-    BSTree(const BSTree<K>& tree) {
-        if(tree == nullptr)
+    BSTree(const BSTree<K> &tree) {
+        if (tree == nullptr)
             return;
         BSTreeNode<K> newroot = new BSTreeNode<K>(tree.root->key);
         newroot.left = tree.root->left;
@@ -425,53 +425,117 @@ public:
 
     //赋值运算符重载函数:深拷贝
     //现代写法
-    BSTree<K>& operator=(BSTree<K> tree) //编译器接收右值的时候自动调用拷贝构造函数
+    BSTree<K> &operator=(BSTree<K> tree) //编译器接收右值的时候自动调用拷贝构造函数
     {
         swap(root, tree.root);  //交换这两个对象的二叉搜索树
         return *this;           //支持连续赋值
     }
 
     //释放树中结点
-    void Destory(BSTreeNode<K>* rt)
-    {
+    void destory(BSTreeNode<K> *rt) {
         if (rt == nullptr) //空树无需释放
             return;
-
-        Destory(rt->left); //释放左子树中的结点
-        Destory(rt->right); //释放右子树中的结点
+        destory(rt->left); //释放左子树中的结点
+        destory(rt->right); //释放右子树中的结点
         delete rt; //释放根结点
     }
+
     //析构函数
     ~BSTree() {
-        Destory(root);
+        destory(root);
         delete root;
     }
 
-    //插入函数
-    bool Insert(const K& key) {
+    bool insertPart(const K &key, BSTreeNode<K> *&rt) {
+        if (rt == nullptr) {
+            rt = new BSTreeNode<K>(key);
+            return true;
+        } else if (key < rt->key)
+            return insertPart(key, rt->left);
+        else if (key > rt->key)
+            return insertPart(key, rt->right);
+        else
+            return false;
+    }
 
+    //插入函数
+    bool insert(const K &key) {
+        return insertPart(key, root);
+    }
+
+    bool erasePart(const K &key, BSTreeNode<K> *&rt) {
+        if (rt == nullptr) {
+            return false;
+        } else if (key < rt->key)
+            return erasePart(key, rt->left);
+        else if (key > rt->key)
+            return erasePart(key, rt->right);
+            // 找到了该结点
+        else {
+            if (rt->left == nullptr && rt->left == nullptr) {
+                delete rt;
+                rt = nullptr;
+            } else if (rt->left != nullptr && rt->left == nullptr) {
+                BSTreeNode<K> *temp = rt;
+                rt = rt->left;
+                delete temp;
+            } else if (rt->left == nullptr && rt->right != nullptr) {
+                BSTreeNode<K> *temp = rt;
+                rt = rt->right;
+                delete temp;
+            } else {
+                // 重要
+                // 寻找右子树中最小的节点（即后继节点）
+                BSTreeNode<K> *successor = rt->right;
+                BSTreeNode<K> *parent = rt;
+                while (successor->left != nullptr) {
+                    parent = successor;
+                    successor = successor->left;
+                }
+                // 将后继节点的数据复制到当前节点
+                rt->key = successor->key;
+                // 删除后继节点
+                if (parent == rt) { // 后继是右子节点，无左子节点
+                    rt->right = successor->right;
+                } else {
+                    parent->left = successor->right;
+                }
+                delete successor;
+            }
+            return true;
+        }
     }
 
     //删除函数
-    bool Erase(const K& key) {
+    bool erase(const K &key) {
+        return erasePart(key, root);
+    }
 
+    BSTreeNode<K> *searchPart(const K &key, BSTreeNode<K> *&rt) {
+        if (rt == nullptr || rt->key == key)
+            return rt;
+        else if (key < rt->key)
+            return searchPart(key, rt->left);
+        else if (key > rt->key)
+            return searchPart(key, rt->right);
     }
 
     //查找函数
-    BSTreeNode<K>* Find(const K& key) {
-
+    BSTreeNode<K> *search(const K &key) {
+        return searchPart(key, root);
     }
 
     //中序遍历
-    void inorderPaet(BSTreeNode<K>* rt) {
-        if(rt == nullptr)
+    void inorderPart(BSTreeNode<K> *&rt) {
+        if (rt == nullptr)
             return;
-        inorderPaet(rt->left);
+        inorderPart(rt->left);
         cout << rt->key << " ";
-        inorderPaet(rt->right);
+        inorderPart(rt->right);
     }
-    void InOrder() {
-        inorderPaet(root);
+
+    void inOrder() {
+        inorderPart(root);
         cout << endl;
     }
 
@@ -479,28 +543,23 @@ public:
 
 
 int main() {
-    auto root = new BSTreeNode<int>(100);
-    auto node2 = new BSTreeNode<int>(200);
-    auto node3 = new BSTreeNode<int>(300);
-    auto node4 = new BSTreeNode<int>(500);
-    auto node5 = new BSTreeNode<int>(600);
+    BSTree<int> bsTree;
+    bsTree.insert(100);
+    bsTree.insert(23);
+    bsTree.insert(10);
+    bsTree.insert(56);
+    bsTree.insert(999);
+    bsTree.insert(1);
+    bsTree.insert(19);
 
-    root->right = node2;
-    root->left = node3;
-    node3->right = node4;
-    node4->left = node5;
+    bsTree.inOrder();
+    bsTree.erase(23);
+    bsTree.inOrder();
 
-    BSTree<int> bstree;
-    bstree.root = root;
-    bstree.InOrder();
-
-    delete root;
-    delete node2;
-    delete node3;
-    delete node4;
-    delete node5;
-
-    // delete node;
+    if (bsTree.search(100) == nullptr)
+        cout << "未找到" << endl;
+    else
+        cout << "找到了" << endl;
     return 0;
 }
 
