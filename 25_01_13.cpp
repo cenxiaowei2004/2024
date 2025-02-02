@@ -166,6 +166,7 @@ bool Heap::empty() const {
 
 
 
+
 class Sort {
 private:
     vector<int> nums;
@@ -486,21 +487,23 @@ public:
             } else {
                 // 重要
                 // 寻找右子树中最小的节点（即后继节点）
-                BSTreeNode<K> *successor = rt->right;
-                BSTreeNode<K> *parent = rt;
-                while (successor->left != nullptr) {
-                    parent = successor;
-                    successor = successor->left;
+                BSTreeNode<K> *minright = rt->right;
+                BSTreeNode<K> *minparent = rt;
+                while (minright->left != nullptr) {
+                    minparent = minright;
+                    minright = minright->left;
                 }
                 // 将后继节点的数据复制到当前节点
-                rt->key = successor->key;
+                rt->key = minright->key;
                 // 删除后继节点
-                if (parent == rt) { // 后继是右子节点，无左子节点
-                    rt->right = successor->right;
+                // 此时minRight的_left为空
+                if (minright == minparent->left) {
+                    minparent->left = minright->right;
+
                 } else {
-                    parent->left = successor->right;
+                    minparent->right = minright->right;
                 }
-                delete successor;
+                delete minright;
             }
             return true;
         }
@@ -541,30 +544,307 @@ public:
 
 };
 
+// AVLTree结点类
+template<class K>
+class AVLTreeNode {
+private:
+    K key;                  // 结点值
+    AVLTreeNode<K> *left;   // 左指针
+    AVLTreeNode<K> *right;  // 右指针
+    int balance;            // 平衡因子 = -1/0/1
+public:
+    //构造函数
+    explicit AVLTreeNode(const K &key = 0) : key(key), left(nullptr), right(nullptr), balance(0) {}
+};
+
+template<class K>
+class AVLTree {
+private:
+    AVLTreeNode<K> *root;
+public:
+    explicit AVLTree() : root(nullptr) {}
+
+    int getheight(AVLTreeNode<K> *rt) {
+        if (rt == nullptr)
+            return 0;
+        return max(getheight(rt->left), getheight(rt->right));
+    }
+
+    int getbalance(AVLTreeNode<K> *rt) {
+        return getheight(rt->left) - getbalance(rt->right);
+    }
+
+    bool insertPart(AVLTreeNode<K> *rt, const K &key) {
+        if (root == nullptr) {
+            root = new AVLTreeNode<K>(key);
+            return true;
+        } else if (root->key < key)
+            return insertPart(rt->right, key);
+        else if (root->key > key)
+            return insertPart(rt->left, key);
+        else
+            return false;
+    }
+
+    bool insert(const K &key) {
+        return insertPart(root, key);
+    }
+
+};
+
+
+//void testmap() {
+//    map<string, int> mapcount;
+//    mapcount.insert(make_pair("zhangsan",1));
+//    mapcount.insert(make_pair("lisi",2));
+//    mapcount.insert(make_pair("wangwu",3));
+//    mapcount.insert(make_pair("zhaoliu",4));
+
+//    auto it = mapcount.find("lisi");
+//    if(it != mapcount.end())
+//        cout << it->second << endl;
+//    cout << endl;
+//    for(auto m : mapcount) {
+//        cout << m.first << ":" << m.second << endl;
+//    }
+
+//    vector<string> fruits = {"西瓜", "香蕉", "西瓜", "苹果", "西瓜", "西瓜", "西瓜", "哈密瓜", "西瓜"};
+//    for (string fruit: fruits) {
+//            mapcount[fruit]++;
+//    }
+//
+//    for(auto i : mapcount) {
+//        cout << i.first << ":" << i.second << endl;
+//    }
+//}
+
+// 有意思的代码
+class Solution {
+public:
+    string reverseStr(string s, int k) {
+        return [&]() {
+            for (int i = 0; i < s.size(); i += 2 * k)
+                reverse(s.begin() + i, s.begin() + min(i + k, (int) s.size()));
+            return s;
+        }();
+    }
+};
+
+//class A {
+//public:
+//    explicit A(int num) : a(num) {}
+//    A(const A& a) : a = a.
+//private:
+//    int a;
+//};
+
+
+class Solution01 {
+public:
+    int maxCount(int m, int n, vector<vector<int>> &ops) {
+        // 问题等价于给一个二维数组ops，求重叠部分的面积
+        if (ops.size() == 0)
+            return m * n;
+        int minc = ops[0][0];
+        int minr = ops[0][1];
+        for (int i = 1; i < ops.size(); i++) {
+            // 4种情况：
+            if (ops[i][0] < minc && ops[i][1] < minr) {
+                minc = ops[i][0];
+                minr = ops[i][1];
+            } else if (ops[i][0] < minc && ops[i][1] > minr)
+                minc = ops[i][0];
+            else if (ops[i][0] > minc && ops[i][1] < minr)
+                minr = ops[i][1];
+            else
+                continue;
+        }
+        return minc * minr;
+    }
+};
+
+
+namespace cl {
+    class string {
+    public:
+        typedef char *iterator;
+
+        iterator begin() {
+            return _str; //返回字符串中第一个字符的地址
+        }
+
+        iterator end() {
+            return _str + _size; //返回字符串中最后一个字符的后一个字符的地址
+        }
+
+        //构造函数
+        string(const char *str = "") {
+            _size = strlen(str); //初始时，字符串大小设置为字符串长度
+            _capacity = _size; //初始时，字符串容量设置为字符串长度
+            _str = new char[_capacity + 1]; //为存储字符串开辟空间（多开一个用于存放'\0'）
+            strcpy(_str, str); //将C字符串拷贝到已开好的空间
+        }
+
+        //交换两个对象的数据
+        void swap(string &s) {
+            //调用库里的swap
+            ::swap(_str, s._str); //交换两个对象的C字符串
+            ::swap(_size, s._size); //交换两个对象的大小
+            ::swap(_capacity, s._capacity); //交换两个对象的容量
+        }
+
+        //拷贝构造函数（现代写法）
+        string(const string &s)
+                : _str(nullptr), _size(0), _capacity(0) {
+            cout << "string(const string& s) -- 深拷贝" << endl;
+
+            string tmp(s._str); //调用构造函数，构造出一个C字符串为s._str的对象
+            swap(tmp); //交换这两个对象
+        }
+
+        //赋值运算符重载（现代写法）
+        string &operator=(const string &s) {
+            cout << "string& operator=(const string& s) -- 深拷贝" << endl;
+
+            string tmp(s); //用s拷贝构造出对象tmp
+            swap(tmp); //交换这两个对象
+            return *this; //返回左值（支持连续赋值）
+        }
+
+        //析构函数
+        ~string() {
+            delete[] _str;  //释放_str指向的空间
+            _str = nullptr; //及时置空，防止非法访问
+            _size = 0;      //大小置0
+            _capacity = 0;  //容量置0
+        }
+
+        //[]运算符重载
+        char &operator[](size_t i) {
+            assert(i < _size); //检测下标的合法性
+            return _str[i]; //返回对应字符
+        }
+
+        //改变容量，大小不变
+        void reserve(size_t n) {
+            if (n > _capacity) //当n大于对象当前容量时才需执行操作
+            {
+                char *tmp = new char[n + 1]; //多开一个空间用于存放'\0'
+                strncpy(tmp, _str, _size + 1); //将对象原本的C字符串拷贝过来（包括'\0'）
+                delete[] _str; //释放对象原本的空间
+                _str = tmp; //将新开辟的空间交给_str
+                _capacity = n; //容量跟着改变
+            }
+        }
+
+        //尾插字符
+        void push_back(char ch) {
+            if (_size == _capacity) //判断是否需要增容
+            {
+                reserve(_capacity == 0 ? 4 : _capacity * 2); //将容量扩大为原来的两倍
+            }
+            _str[_size] = ch; //将字符尾插到字符串
+            _str[_size + 1] = '\0'; //字符串后面放上'\0'
+            _size++; //字符串的大小加一
+        }
+
+        //+=运算符重载
+        string &operator+=(char ch) {
+            push_back(ch); //尾插字符串
+            return *this; //返回左值（支持连续+=）
+        }
+
+        //返回C类型的字符串
+        const char *c_str() const {
+            return _str;
+        }
+
+    private:
+        char *_str;
+        size_t _size;
+        size_t _capacity;
+    };
+}
+
+//
+//void test() {
+//    vector<int> v{1, 2, 3, 5};
+//    // 左值引用
+//    int a = 100;
+//    int &b = a;
+//    // 右值引用
+//    int &&c = 100;
+//    const int &d = 100;
+//    int &&e = move(a);
+//}
+
+
+//String operator+(const String &s) {
+//    char *pTemp = new char[strlen(_str) + strlen(s._str) + 1];
+//    strcpy(pTemp, _str);
+//    strcpy(pTemp + strlen(_str), s._str);
+//    String strRet(pTemp);
+//    return strRet;
+//}
+
 
 int main() {
-    BSTree<int> bsTree;
-    bsTree.insert(100);
-    bsTree.insert(23);
-    bsTree.insert(10);
-    bsTree.insert(56);
-    bsTree.insert(999);
-    bsTree.insert(1);
-    bsTree.insert(19);
 
-    bsTree.inOrder();
-    bsTree.erase(23);
-    bsTree.inOrder();
+    int a = 100;
+    int b = 200;
+    decltype(a + b) c = 300;
 
-    if (bsTree.search(100) == nullptr)
-        cout << "未找到" << endl;
-    else
-        cout << "找到了" << endl;
-    return 0;
+    cout << typeid(c).name() << endl;   // i
+
+
+    // test();
+
 }
+
+//int main() {
+//    unordered_map<int,int> map;
+//    set<int> s;
+//    s.insert(100);
+//    s.insert(23);
+//    s.insert(55);
+//    s.insert(11);
+//    auto it = s.begin();
+//    while(it != s.end()) {
+//        cout << *it << " ";
+//        it++;
+//    }
+//    return 0;
+//}
+
+//int main() {
+//    BSTree<int> bsTree;
+//    bsTree.insert(100);
+//    bsTree.insert(23);
+//    bsTree.insert(10);
+//    bsTree.insert(56);
+//    bsTree.insert(999);
+//    bsTree.insert(1);
+//    bsTree.insert(19);
+//
+//    bsTree.inOrder();
+//    bsTree.erase(23);
+//    bsTree.erase(999);
+//    bsTree.inOrder();
+//
+//    if (bsTree.search(100) == nullptr)
+//        cout << "未找到" << endl;
+//    else
+//        cout << "找到了" << endl;
+//    return 0;
+//}
 
 
 // Linux + 数据库
+
+//int main() {
+//
+//    return 0;
+//}
 
 
 // 树的不同种类
