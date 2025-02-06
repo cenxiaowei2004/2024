@@ -788,18 +788,39 @@ namespace cl {
 //}
 
 
-int main() {
+class Goods {
+public:
+    string name;
+    double price;
 
-    int a = 100;
-    int b = 200;
-    decltype(a + b) c = 300;
+    Goods(const string _name, const double _price) : name(_name), price(_price) {}
+};
 
-    cout << typeid(c).name() << endl;   // i
+class priceSortLess {
+public:
+    bool operator()(const Goods &g1, const Goods &g2) const {
+        return g1.price > g2.price;
+    }
+};
 
-
-    // test();
-
-}
+//int main() {
+//    vector<Goods> goods = {
+//            Goods("apple", 12.3),
+//            Goods("pear", 10.7),
+//            Goods("banana", 10.1)
+//    };
+//    sort(goods.begin(), goods.end(),
+//         [](const Goods &g1, const Goods &g2)-> bool {
+//        return g1.price > g2.price;
+//    });
+//    for (auto i: goods) {
+//        cout << i.name << " + " << i.price << endl;
+//    }
+//    int a = 100, b = 10;
+//    auto fun = [a,b](int x, int y) -> int { return x + y + a; };
+//    cout << fun(a,b);
+//    return 0;
+//}
 
 //int main() {
 //    unordered_map<int,int> map;
@@ -881,4 +902,205 @@ int main() {
 //            break;
 //    }
 //}
+
+int testExpection() {
+    int num1 = 0, num2 = 0;
+    cin >> num1 >> num2;
+    if (num2 == 0) {
+        throw string("zero condition!");
+    }
+    return num1 / num2;
+}
+
+
+template<class T>
+class SmartPtr {
+public:
+    SmartPtr(T *ptr) : _ptr(ptr) {}
+
+    ~SmartPtr() {
+        cout << "delete: " << _ptr << endl;
+        delete _ptr;
+    }
+
+    T &operator*() {
+        return *_ptr;
+    }
+
+    T *operator->() {
+        return _ptr;
+    }
+
+private:
+    T *_ptr;
+};
+
+int div() {
+    int a, b;
+    cin >> a >> b;
+    if (b == 0)
+        throw invalid_argument("除0错误");
+    return a / b;
+}
+
+void func() {
+    SmartPtr<int> sp(new int);
+    //...
+    cout << div() << endl;
+    //...
+}
+
+#include <memory>
+
+class HeapOnly {
+public:
+    static unique_ptr<HeapOnly> CreateObj() {
+        return unique_ptr<HeapOnly>(new HeapOnly());
+    }
+
+    HeapOnly(const HeapOnly &hp) = delete;
+
+    HeapOnly &operator=(const HeapOnly &hp) = delete;
+
+private:
+    HeapOnly() = default;
+};
+
+class StackOnly {
+public:
+    static StackOnly CreateObj() {
+        return StackOnly();
+    }
+
+private:
+
+    StackOnly() {}
+
+    void *operator new(size_t size) = delete;
+
+    void operator delete(void *p) = delete;
+};
+
+
+class example {
+public:
+    explicit example() = default;
+
+    explicit example(const int &_a) : a(_a) {}
+
+    example(const example &e) : a(e.a) {}
+
+
+    int a;
+};
+
+
+//// 饿汉模式
+//// 优点：简单
+//// 缺点：可能会导致进程启动慢，且如果有多个单例类对象实例启动顺序不确定。
+//class Singleton {
+//public:
+//    static Singleton *GetInstance() {
+//        return &m_instance;
+//    }
+//
+//private:
+//    // 构造函数私有
+//    Singleton() {};
+//
+//    // C++11
+//    Singleton(Singleton const &) = delete;
+//
+//    Singleton &operator=(Singleton const &) = delete;
+//
+//    static Singleton m_instance;
+//};
+//
+//Singleton Singleton::m_instance; // 在程序入口之前就完成单例对象的初始化
+
+// 懒汉
+// 优点：第一次使用实例对象时，创建对象。进程启动无负载。多个单例实例启动顺序自由控制。
+// 缺点：复杂
+
+#include <iostream>
+#include <mutex>
+#include <thread>
+using namespace std;
+
+class Singleton {
+public:
+    static Singleton *GetInstance() {
+        // 注意这里一定要使用Double-Check的方式加锁，才能保证效率和线程安全
+        if (nullptr == m_pInstance) {
+            m_mtx.lock();
+            if (nullptr == m_pInstance) {
+                m_pInstance = new Singleton();
+            }
+            m_mtx.unlock();
+        }
+        return m_pInstance;
+    }
+
+    // 实现一个内嵌垃圾回收类
+    class CGarbo {
+    public:
+        ~CGarbo() {
+            if (Singleton::m_pInstance)
+                delete Singleton::m_pInstance;
+        }
+    };
+
+    // 定义一个静态成员变量，程序结束时，系统会自动调用它的析构函数从而释放单例对象
+    static CGarbo Garbo;
+private:
+    // 构造函数私有
+    Singleton() {};
+
+    // 防拷贝
+    Singleton(Singleton const &);
+
+    Singleton &operator=(Singleton const &);
+
+    static Singleton *m_pInstance; // 单例对象指针
+    static mutex m_mtx; //互斥锁
+};
+
+Singleton *Singleton::m_pInstance = nullptr;
+Singleton::CGarbo Garbo;
+mutex Singleton::m_mtx;
+
+// int main() {
+//    try {
+//        func();
+//    }
+//    catch (exception &e) {
+//        cout << e.what() << endl;
+//    }
+//    HeapOnly *hp = HeapOnly::CreateObj();
+//
+//    example ee;
+//    example e(120);
+//    example copy(e);
+//    return 0;
+//}
+
+
+int main() {
+//    int i = 100;
+//    auto d = static_cast<double>(i);
+//    cout << d;
+//    int i = 100;
+//    int* p = nullptr;
+//    p = reinterpret_cast<int*>(i);
+//    int i = 100;
+    const int i = 100;
+    auto ptr = const_cast<int*>(&i);
+    *ptr = 1000;
+    cout << *ptr << endl;   // 1000
+    cout << i << endl;      // 100
+
+    return 0;
+}
+
+
 
