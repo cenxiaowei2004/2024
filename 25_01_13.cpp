@@ -1025,6 +1025,7 @@ public:
 #include <iostream>
 #include <mutex>
 #include <thread>
+
 using namespace std;
 
 class Singleton {
@@ -1085,7 +1086,7 @@ mutex Singleton::m_mtx;
 //}
 
 
-int main() {
+//    int main() {
 //    int i = 100;
 //    auto d = static_cast<double>(i);
 //    cout << d;
@@ -1093,14 +1094,63 @@ int main() {
 //    int* p = nullptr;
 //    p = reinterpret_cast<int*>(i);
 //    int i = 100;
-    const int i = 100;
-    auto ptr = const_cast<int*>(&i);
-    *ptr = 1000;
-    cout << *ptr << endl;   // 1000
-    cout << i << endl;      // 100
+//    const int i = 100;
+//    auto ptr = const_cast<int*>(&i);
+//    *ptr = 1000;
+//    cout << *ptr << endl;   // 1000
+//    cout << i << endl;      // 100
+//
+//    return 0;
+//}
 
-    return 0;
+//#include <thread>
+//int main() {
+//    std::thread t1;
+//    cout << t1.get_id() << endl;
+//    return 0;
+//}
+
+template<typename T>
+void print(T item) { // 基础情况
+    cout << item << " ";
+}
+
+template<typename T, typename... Args>
+void print(T first, Args... args) { // 递归情况
+    print(first);
+    print(args...);
+}
+
+template<typename T>
+void func(T a) {
+    cout << a << endl;
+}
+
+template<typename T>
+T sum(T last) {
+    return last;
+}
+
+template<typename T, typename... Args>
+T sum(T first, Args ...args) {
+    return first + sum(args...);
+}
+
+void add(int n, int x) {
+    for (int i = 0; i < n; i++) {
+        cout << x << " ";
+        x++;
+    }
 }
 
 
+void testThread() {
+    thread t1(add, 10, 5);
+    thread t2(add, 4, 15);
+    t1.join();
+    t2.join();
+}
 
+int main() {
+    testThread();
+}
